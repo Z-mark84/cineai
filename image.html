@@ -143,8 +143,10 @@
         <div style="margin-bottom:var(--space-lg);background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:var(--border-radius-md);overflow:hidden;">
           <div style="display:flex;border-bottom:1px solid var(--border-color-light);">
             <div class="live-tab active" data-tab="preview" onclick="switchLiveTab('preview')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid var(--color-primary);color:var(--color-primary-light);">🔮 实时预览</div>
-            <div class="live-tab" data-tab="templates" onclick="switchLiveTab('templates')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">📋 模板库</div>
-            <div class="live-tab" data-tab="keywords" onclick="switchLiveTab('keywords')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">🏷️ 检测到的关键词</div>
+            <div class="live-tab" data-tab="templates" onclick="switchLiveTab('templates')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">📋 模板</div>
+            <div class="live-tab" data-tab="inspire" onclick="switchLiveTab('inspire')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">💡 灵感</div>
+            <div class="live-tab" data-tab="styles" onclick="switchLiveTab('styles')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">🎨 风格</div>
+            <div class="live-tab" data-tab="keywords" onclick="switchLiveTab('keywords')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">🏷️ 关键词</div>
           </div>
           <div id="liveTab-preview" style="padding:var(--space-md);min-height:80px;">
             <div style="display:flex;gap:var(--space-md);">
@@ -167,6 +169,28 @@
               <div class="tpl-chip" onclick="useTemplate('fantasy')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🧙 奇幻</div>
               <div class="tpl-chip" onclick="useTemplate('future')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🤖 未来科技</div>
               <div class="tpl-chip" onclick="useTemplate('ancient')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🏯 古风</div>
+            </div>
+          </div>
+          <div id="liveTab-inspire" style="display:none;padding:var(--space-md);">
+            <div style="margin-bottom:var(--space-sm);font-size:12px;color:var(--text-secondary);">点击组合生成故事灵感：</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--space-md);">
+              <select id="inspireGenre" style="padding:6px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:12px;outline:none;"><option>科幻</option><option>奇幻</option><option>古风</option><option>都市</option><option>悬疑</option><option>爱情</option></select>
+              <select id="inspireMood" style="padding:6px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:12px;outline:none;"><option>温馨</option><option>紧张</option><option>唯美</option><option>神秘</option><option>热血</option><option>悲伤</option></select>
+              <button class="btn btn-primary btn-sm" onclick="generateIdea()"><i class="fas fa-lightbulb"></i> 生成灵感</button>
+            </div>
+            <div id="ideaResult" style="font-size:13px;color:var(--text-secondary);line-height:1.8;min-height:60px;padding:12px;background:var(--bg-input);border-radius:8px;">选择题材和情绪，点击「生成灵感」获取故事创意</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;" id="ideaQuickFill"></div>
+          </div>
+          <div id="liveTab-styles" style="display:none;padding:var(--space-md);">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;">
+              <div class="style-chip" onclick="applyStyle('写实')" style="padding:10px;background:linear-gradient(135deg,#2d2d3e,#3d3d4e);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">📷 摄影写实</div>
+              <div class="style-chip" onclick="applyStyle('电影')" style="padding:10px;background:linear-gradient(135deg,#2d1a1a,#3d2a2a);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🎬 电影质感</div>
+              <div class="style-chip" onclick="applyStyle('动漫')" style="padding:10px;background:linear-gradient(135deg,#1a1a3d,#2a2a4d);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🎨 动漫风格</div>
+              <div class="style-chip" onclick="applyStyle('油画')" style="padding:10px;background:linear-gradient(135deg,#2d2d1a,#3d3d2a);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🖼️ 油画</div>
+              <div class="style-chip" onclick="applyStyle('水墨')" style="padding:10px;background:linear-gradient(135deg,#1a2d1a,#2a3d2a);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🏮 水墨国风</div>
+              <div class="style-chip" onclick="applyStyle('赛博')" style="padding:10px;background:linear-gradient(135deg,#1a1a2d,#2a1a3d);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🌃 赛博朋克</div>
+              <div class="style-chip" onclick="applyStyle('水彩')" style="padding:10px;background:linear-gradient(135deg,#2d1a2d,#3d2a3d);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">🎨 水彩</div>
+              <div class="style-chip" onclick="applyStyle('素描')" style="padding:10px;background:linear-gradient(135deg,#2a2a2a,#3a3a3a);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);border:1px solid transparent;">✏️ 素描</div>
             </div>
           </div>
           <div id="liveTab-keywords" style="display:none;padding:var(--space-md);">
@@ -413,7 +437,7 @@
         t.style.borderBottomColor = t.getAttribute('data-tab') === tab ? 'var(--color-primary)' : 'transparent';
         t.style.color = t.getAttribute('data-tab') === tab ? 'var(--color-primary-light)' : 'var(--text-tertiary)';
       });
-      ['preview','templates','keywords'].forEach(function(t) {
+      ['preview','templates','inspire','styles','keywords'].forEach(function(t) {
         var el = document.getElementById('liveTab-' + t);
         if (el) el.style.display = t === tab ? 'block' : 'none';
       });
@@ -432,6 +456,47 @@
       var ta = document.getElementById('promptInput');
       ta.value = templates[type] || templates.portrait;
       updateCharCount();
+      updateLivePreview();
+    }
+
+    // ===== 故事灵感生成器 (模块28) =====
+    var storyTemplates = {
+      '科幻': { '温馨': '在遥远的星际殖民地，一位机器人园丁每天照顾着最后一片地球植物，直到某天一朵花在无氧环境下绽放', '紧张': '深空探测船发现了一个废弃的外星城市，船员的通讯器开始接收到来自城市中心的信号——那是求救信号', '唯美': '在双星系统的照耀下，一对恋人漂浮在星环之中，宇宙尘埃在他们周围形成绚丽的光带', '神秘': '一位考古学家在火星金字塔中发现了一扇门，门上刻着地球无法破译的文字', '热血': '太阳即将熄灭，一支由普通人组成的舰队出发前往点燃新的恒星', '悲伤': '最后一个人工智能在主人去世后，继续维护着空无一人的城市' },
+      '奇幻': { '温馨': '一个小女孩发现她床下的怪物其实是另一个世界的迷失王子，他们成为了朋友', '紧张': '龙族与精灵族休战千年的契约即将到期，两个阵营在边境集结', '唯美': '在月光森林中，一位精灵舞者的眼泪落入湖中，水面绽放出星光的莲花', '神秘': '一座只在满月时出现的图书馆，每一本书都记载着不同平行世界的历史', '热血': '一个被预言选中的少年，举起碎裂的神剑对抗即将降临的黑暗', '悲伤': '最后一位魔法师将自己的生命转化为守护结界，保护着不再相信魔法的人类' },
+      '古风': { '温馨': '江南水乡，一位老工匠为孙女制作了会飞的孔明灯，灯上画着他们从未见过的远方风景', '紧张': '边关告急，一位女扮男装的将军在朝堂上力排众议，率军出征', '唯美': '桃花林中，一位琴师抚琴，琴声引来百鸟和鸣，山间云雾缭绕', '神秘': '一幅古画中的仕女在每个满月之夜走出画中，只为在庭院中跳一支舞', '热血': '乱世之中，三位结义兄弟在长坂坡立下誓言，要为天下苍生开创太平', '悲伤': '一场大火烧尽了皇宫中的所有藏书，老史官凭着记忆重写着文明的历史' },
+      '都市': { '温馨': '在一家24小时营业的深夜食堂里，陌生人之间的故事在热气中交织', '紧张': '城市的电力系统被神秘黑客控制，全城陷入混乱，只有一位退休工程师知道解决方案', '唯美': '雨后初晴，一个摄影师在城市的天台上捕捉到了一道罕见的三彩虹', '神秘': '地铁站的最后一班列车总是多停一站——一个地图上没有的站台', '热血': '一群街头舞者决定代表城市参加国际大赛，他们的对手是世界冠军', '悲伤': '即将拆除的老城区里，一位老人用相机记录着每一条即将消失的街巷' }
+    };
+    
+    function generateIdea() {
+      var genre = document.getElementById('inspireGenre').value;
+      var mood = document.getElementById('inspireMood').value;
+      var result = document.getElementById('ideaResult');
+      
+      if (storyTemplates[genre] && storyTemplates[genre][mood]) {
+        var idea = storyTemplates[genre][mood];
+        result.innerHTML = '<div style="font-weight:600;margin-bottom:6px;">✨ ' + genre + ' · ' + mood + '</div><div>' + idea + '</div>';
+        
+        // Show quick fill button
+        var fillDiv = document.getElementById('ideaQuickFill');
+        fillDiv.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="fillPromptFromIdea(\'' + idea.replace(/'/g, "\\'") + '\')"><i class="fas fa-pen"></i> 用此灵感生成图片</button>';
+      } else {
+        // 组合生成
+        result.innerHTML = '<div style="color:var(--text-tertiary);">💡 ' + genre + '与' + mood + '的组合创意正在构思中...</div>';
+      }
+    }
+    
+    function fillPromptFromIdea(idea) {
+      var ta = document.getElementById('promptInput');
+      ta.value = idea;
+      updateCharCount();
+      updateLivePreview();
+    }
+
+    // ===== 风格画廊 (模块30) =====
+    function applyStyle(style) {
+      var select = document.getElementById('styleSelect');
+      var map = { '写实':'photorealistic', '电影':'cinematic', '动漫':'anime', '油画':'oil_painting', '水墨':'ink_wash', '赛博':'cyberpunk', '水彩':'watercolor', '素描':'sketch' };
+      if (select && map[style]) select.value = map[style];
       updateLivePreview();
     }
 
