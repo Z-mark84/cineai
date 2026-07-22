@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI图片生成 - CineAI 文生图/图生图</title>
+  <meta name="description" content="CineAI AI图片生成：文生图、图生图，智能提示词优化，支持人物/场景/人+景多模式">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+  <style>
+    .img-studio { display:flex; flex-direction:column; min-height:100vh; padding-top:var(--nav-height); }
+    .img-body { display:flex; flex:1; }
+    .img-sidebar { width:300px; background:var(--bg-secondary); border-right:1px solid var(--border-color-light); padding:var(--space-lg); flex-shrink:0; overflow-y:auto; }
+    .img-main { flex:1; padding:var(--space-xl); overflow-y:auto; }
+    .img-type-selector { display:flex; gap:8px; margin-bottom:var(--space-lg); }
+    .img-type-btn { padding:8px 16px; border-radius:var(--border-radius-full); border:1px solid var(--border-color-light); background:transparent; color:var(--text-secondary); font-size:13px; cursor:pointer; transition:all var(--transition-fast); font-family:inherit; }
+    .img-type-btn:hover { border-color:var(--color-primary); color:var(--text-primary); }
+    .img-type-btn.active { background:var(--gradient-primary); border-color:transparent; color:white; }
+    .img-input-area { background:var(--bg-card); border:1px solid var(--border-color-light); border-radius:var(--border-radius-lg); padding:var(--space-lg); margin-bottom:var(--space-lg); }
+    .img-input-area textarea { width:100%; min-height:100px; background:transparent; border:none; color:var(--text-primary); font-size:var(--font-size-base); font-family:inherit; resize:vertical; outline:none; line-height:1.7; }
+    .img-input-area textarea::placeholder { color:var(--text-tertiary); }
+    .optimized-box { background:rgba(124,58,237,0.08); border:1px solid rgba(124,58,237,0.2); border-radius:var(--border-radius-md); padding:var(--space-md); margin-bottom:var(--space-lg); }
+    .optimized-box .label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--color-primary-light); margin-bottom:6px; }
+    .optimized-box .text { font-size:var(--font-size-sm); color:var(--text-secondary); line-height:1.6; }
+    .img-preview { background:var(--bg-secondary); border:1px solid var(--border-color-light); border-radius:var(--border-radius-lg); min-height:400px; display:flex; align-items:center; justify-content:center; }
+    .img-preview-empty { text-align:center; color:var(--text-tertiary); }
+    .img-preview-empty i { font-size:48px; margin-bottom:var(--space-md); opacity:0.3; }
+    .params-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-md); margin-bottom:var(--space-lg); }
+    .variation-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-md); }
+    .var-card { background:var(--bg-card); border:1px solid var(--border-color-light); border-radius:var(--border-radius-md); padding:var(--space-md); }
+    .var-card h4 { font-size:12px; color:var(--text-tertiary); margin-bottom:4px; }
+    .var-card p { font-size:11px; color:var(--text-secondary); line-height:1.5; max-height:80px; overflow-y:auto; }
+    .var-card .badge { display:inline-block; font-size:10px; padding:2px 8px; border-radius:var(--border-radius-full); background:rgba(124,58,237,0.1); color:var(--color-primary-light); margin-top:6px; }
+    @media(max-width:900px){ .img-body{flex-direction:column;} .img-sidebar{width:100%;max-height:200px;} }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
+    <div class="nav-links">
+      <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html">协作工作流</a>
+      <a href="create.html">长视频工作室</a> <a href="image.html" class="active">AI图片</a>
+      <a href="pricing.html">定价</a> <a href="help.html">帮助</a> <a href="about.html">关于</a>
+    </div>
+    <div class="nav-actions"><a href="create.html" class="btn btn-primary btn-sm"><i class="fas fa-wand-magic-sparkles"></i> 开始创作</a><button class="mobile-menu-btn"><i class="fas fa-bars"></i></button></div>
+  </div></nav>
+  <div class="mobile-menu">
+    <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html">协作工作流</a>
+    <a href="create.html">长视频工作室</a> <a href="image.html" class="active">AI图片</a>
+    <a href="pricing.html">定价</a> <a href="help.html">帮助</a> <a href="about.html">关于</a>
+    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;"><i class="fas fa-wand-magic-sparkles"></i> 开始创作</a>
+  </div>
+
+  <div class="img-studio">
+    <div class="img-body">
+      <!-- Sidebar -->
+      <div class="img-sidebar">
+        <h3 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-tertiary);margin-bottom:var(--space-md);">⚙️ 参数设置</h3>
+        
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">图片类型</label>
+        <select id="imageType" style="width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:13px;margin-bottom:var(--space-md);outline:none;font-family:inherit;">
+          <option value="character_scene">人物+场景</option>
+          <option value="portrait">人物肖像</option>
+          <option value="scene">场景风景</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">风格</label>
+        <select id="styleSelect" style="width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:13px;margin-bottom:var(--space-md);outline:none;font-family:inherit;">
+          <option value="photorealistic">📷 摄影写实</option>
+          <option value="cinematic">🎬 电影质感</option>
+          <option value="anime">🎨 动漫风格</option>
+          <option value="oil_painting">🖼️ 油画风格</option>
+          <option value="ink_wash">🏮 水墨国风</option>
+          <option value="cyberpunk">🌃 赛博朋克</option>
+          <option value="sketch">✏️ 素描</option>
+          <option value="pixel_art">🟦 像素风</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">构图</label>
+        <select id="compSelect" style="width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:13px;margin-bottom:var(--space-md);outline:none;font-family:inherit;">
+          <option value="close-up">特写</option>
+          <option value="medium shot" selected>半身/中景</option>
+          <option value="full body">全身</option>
+          <option value="wide angle">全景/广角</option>
+          <option value="bird's eye view">俯拍</option>
+          <option value="low angle">仰拍</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">光线</label>
+        <select id="lightSelect" style="width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:13px;margin-bottom:var(--space-md);outline:none;font-family:inherit;">
+          <option value="natural lighting">自然光</option>
+          <option value="golden hour">黄金时刻（日落）</option>
+          <option value="studio lighting">影棚灯光</option>
+          <option value="soft diffused">柔和漫射光</option>
+          <option value="dramatic">戏剧性光影</option>
+          <option value="neon">霓虹灯光</option>
+          <option value="moonlight">月光</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">宽高比</label>
+        <select id="ratioSelect" style="width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;color:var(--text-primary);font-size:13px;margin-bottom:var(--space-md);outline:none;font-family:inherit;">
+          <option value="1:1">1:1 正方形</option>
+          <option value="4:3" selected>4:3 标准</option>
+          <option value="16:9">16:9 宽屏</option>
+          <option value="9:16">9:16 手机</option>
+          <option value="3:4">3:4 肖像</option>
+          <option value="21:9">21:9 超宽</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">CFG (提示词强度)</label>
+        <input type="range" id="cfgSlider" min="1" max="20" value="7" style="width:100%;margin-bottom:var(--space-md);" oninput="document.getElementById('cfgVal').textContent=this.value">
+        <span style="font-size:11px;color:var(--text-tertiary);" id="cfgVal">7</span>
+      </div>
+
+      <!-- Main -->
+      <div class="img-main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-lg);">
+          <div>
+            <h2 style="font-size:var(--font-size-2xl);font-weight:700;"><i class="fas fa-palette" style="color:var(--color-primary-light);margin-right:8px;"></i>AI 图片生成</h2>
+            <p style="color:var(--text-tertiary);font-size:var(--font-size-sm);">输入创意描述，AI智能优化提示词，生成高质量图片</p>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="img-input-area">
+          <textarea id="promptInput" placeholder="描述你想要的图片...&#10;&#10;例如：一个美丽的女孩在阳光明媚的花园中微笑，穿着白色连衣裙&#10;&#10;💡 输入「美女」「森林」「赛博」等关键词，AI会自动转化为高质量描述">一个美丽的女孩在阳光明媚的花园中微笑，穿着白色连衣裙</textarea>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;">
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-ghost btn-sm" onclick="fillExample('portrait')"><i class="fas fa-user"></i> 人物示例</button>
+              <button class="btn btn-ghost btn-sm" onclick="fillExample('scene')"><i class="fas fa-mountain"></i> 场景示例</button>
+              <button class="btn btn-ghost btn-sm" onclick="fillExample('both')"><i class="fas fa-users"></i> 人+景示例</button>
+            </div>
+            <span class="char-counter" style="font-size:var(--font-size-xs);color:var(--text-tertiary);">0/1000</span>
+          </div>
+        </div>
+
+        <!-- Optimized Prompt Display -->
+        <div class="optimized-box" id="optimizedBox" style="display:none;">
+          <div class="label"><i class="fas fa-magic"></i> AI优化后的提示词</div>
+          <div class="text" id="optimizedText"></div>
+          <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text-tertiary);">
+            <span>📊 词数: <span id="wordCount">0</span></span>
+            <span>🎯 CFG: <span id="cfgDisplay">7</span></span>
+            <span>📐 比例: <span id="ratioDisplay">4:3</span></span>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button class="btn btn-primary btn-lg" id="generateImgBtn" style="width:100%;margin-bottom:var(--space-lg);" onclick="generateImage()">
+          <i class="fas fa-wand-magic-sparkles"></i> 智能生成图片
+        </button>
+
+        <!-- Preview -->
+        <div class="img-preview" id="imgPreview">
+          <div class="img-preview-empty">
+            <i class="fas fa-image"></i>
+            <h3 style="color:var(--text-secondary);margin-bottom:4px;">等待生成</h3>
+            <p style="font-size:var(--font-size-sm);">输入描述并点击生成</p>
+          </div>
+        </div>
+
+        <!-- Variations -->
+        <div style="margin-top:var(--space-xl);" id="variationsSection" style="display:none;">
+          <h3 style="font-size:var(--font-size-lg);font-weight:700;margin-bottom:var(--space-md);"><i class="fas fa-layer-group" style="color:var(--color-primary-light);"></i> 多版本对比</h3>
+          <div class="variation-grid" id="variationGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="container">
+    <div class="footer-grid">
+      <div class="footer-col"><a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a><p class="footer-brand-desc">新一代AI视频创作平台</p></div>
+      <div class="footer-col"><h4 class="footer-col-title">产品</h4><a href="apps.html">AI工具</a><a href="workflow.html">协作工作流</a><a href="create.html">长视频工作室</a><a href="image.html">AI图片</a><a href="pricing.html">定价方案</a></div>
+      <div class="footer-col"><h4 class="footer-col-title">公司</h4><a href="about.html">关于我们</a></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 CineAI</span></div>
+  </div></footer>
+
+  <script src="js/prompt-engine.js"></script>
+  <script>
+    // 示例填充
+    function fillExample(type) {
+      var ta = document.getElementById('promptInput');
+      var samples = {
+        portrait: '一位优雅的年轻女性，长发披肩，穿着红色旗袍，在古典庭院中微笑，柔和光线',
+        scene: '壮丽的山脉日落，金色阳光洒在雪山顶峰，云海翻涌，广阔的全景视野',
+        both: '一个可爱的小女孩在春天的花田中奔跑，穿着碎花裙子，阳光明媚，蝴蝶飞舞'
+      };
+      ta.value = samples[type] || samples.portrait;
+      updateCharCount();
+      document.getElementById('optimizedBox').style.display = 'none';
+    }
+
+    // 字数统计
+    function updateCharCount() {
+      var ta = document.getElementById('promptInput');
+      var c = document.querySelector('.char-counter');
+      if (c) c.textContent = ta.value.length + '/1000';
+    }
+    document.getElementById('promptInput').addEventListener('input', function() {
+      updateCharCount();
+      document.getElementById('optimizedBox').style.display = 'none';
+    });
+
+    // 生成图片
+    function generateImage() {
+      var input = document.getElementById('promptInput').value.trim();
+      if (!input) { alert('请输入图片描述'); return; }
+
+      var type = document.getElementById('imageType').value;
+      var style = document.getElementById('styleSelect').value;
+      var composition = document.getElementById('compSelect').value;
+      var lighting = document.getElementById('lightSelect').value;
+      var ratio = document.getElementById('ratioSelect').value;
+      var cfg = document.getElementById('cfgSlider').value;
+
+      var btn = document.getElementById('generateImgBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI正在优化并生成...';
+      btn.disabled = true;
+
+      // 用优化引擎处理
+      setTimeout(function() {
+        var result = optimizePrompt(input, type, {
+          style: style,
+          composition: composition,
+          lighting: lighting,
+          quality: 'high'
+        });
+
+        // 显示优化后的提示词
+        document.getElementById('optimizedBox').style.display = 'block';
+        document.getElementById('optimizedText').textContent = result.optimized;
+        document.getElementById('wordCount').textContent = result.wordCount;
+        document.getElementById('cfgDisplay').textContent = cfg;
+        document.getElementById('ratioDisplay').textContent = ratio;
+
+        // 显示生成结果
+        showGeneratedImage(result, input, style, composition, lighting, ratio);
+
+        // 生成多版本
+        showVariations(input);
+
+        btn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> 智能生成图片';
+        btn.disabled = false;
+      }, 1500);
+    }
+
+    function showGeneratedImage(result, input, style, comp, light, ratio) {
+      var container = document.getElementById('imgPreview');
+      var gradientMap = {
+        'photorealistic': '135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.1)',
+        'cinematic': '135deg,rgba(6,182,212,0.15),rgba(34,197,94,0.1)',
+        'anime': '135deg,rgba(236,72,153,0.15),rgba(124,58,237,0.1)',
+        'oil_painting': '135deg,rgba(249,115,22,0.15),rgba(251,191,36,0.1)',
+        'ink_wash': '135deg,rgba(34,197,94,0.15),rgba(6,182,212,0.1)',
+        'cyberpunk': '135deg,rgba(236,72,153,0.15),rgba(59,130,246,0.1)',
+        'sketch': '135deg,rgba(107,114,128,0.15),rgba(156,163,175,0.1)',
+        'pixel_art': '135deg,rgba(251,191,36,0.15),rgba(236,72,153,0.1)'
+      };
+      var gradient = gradientMap[style] || '135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.1)';
+
+      container.innerHTML = '<div style="width:100%;display:flex;flex-direction:column;">' +
+        '<div style="aspect-ratio:' + ratio.replace(':', '/') + ';max-height:500px;background:linear-gradient(' + gradient + ');border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">' +
+          '<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,0.08),transparent 70%);"></div>' +
+          '<div style="text-align:center;position:relative;z-index:2;">' +
+            '<div style="font-size:64px;margin-bottom:8px;">🖼️</div>' +
+            '<div style="font-size:var(--font-size-sm);color:var(--text-secondary);max-width:400px;margin:0 auto;">"' + result.optimized.substring(0, 100) + '..."</div>' +
+            '<div style="display:flex;gap:8px;justify-content:center;margin-top:16px;">' +
+              '<button class="btn btn-primary btn-sm" onclick="alert(\'📥 下载图片\\n\\n格式: PNG\\n分辨率: ' + result.params.aspectRatio + '\\n\\n（演示模式，实际下载需接入API）\')"><i class="fas fa-download"></i> 下载</button>' +
+              '<button class="btn btn-secondary btn-sm" onclick="document.getElementById(\'optimizedText\').select()"><i class="fas fa-copy"></i> 复制提示词</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:12px;padding:8px 0;font-size:11px;color:var(--text-tertiary);">' +
+          '<span>📐 ' + ratio + '</span><span>🎨 ' + style + '</span><span>💡 ' + comp + '</span><span>☀️ ' + light + '</span>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function showVariations(input) {
+      var section = document.getElementById('variationsSection');
+      var grid = document.getElementById('variationGrid');
+      section.style.display = 'block';
+
+      var types = [
+        { t: 'portrait', label: '人物肖像', icon: '👤' },
+        { t: 'scene', label: '场景风景', icon: '🌄' },
+        { t: 'character_scene', label: '人物+场景', icon: '👥' }
+      ];
+
+      var html = '';
+      for (var i = 0; i < types.length; i++) {
+        var r = optimizePrompt(input, types[i].t, { quality: i === 0 ? 'high' : 'medium' });
+        html += '<div class="var-card">' +
+          '<h4>' + types[i].icon + ' ' + types[i].label + '</h4>' +
+          '<p>' + r.optimized.substring(0, 120) + '...</p>' +
+          '<div><span class="badge">' + r.wordCount + '词</span><span class="badge" style="margin-left:4px;">' + r.params.aspectRatio + '</span></div>' +
+        '</div>';
+      }
+      grid.innerHTML = html;
+    }
+
+    // 初始化示例
+    window.onload = function() {
+      setTimeout(function() { fillExample('both'); }, 300);
+    };
+  </script>
+</body>
+</html>
