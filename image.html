@@ -139,6 +139,41 @@
           </div>
         </div>
 
+        <!-- Live Prompt Preview -->
+        <div style="margin-bottom:var(--space-lg);background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:var(--border-radius-md);overflow:hidden;">
+          <div style="display:flex;border-bottom:1px solid var(--border-color-light);">
+            <div class="live-tab active" data-tab="preview" onclick="switchLiveTab('preview')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid var(--color-primary);color:var(--color-primary-light);">🔮 实时预览</div>
+            <div class="live-tab" data-tab="templates" onclick="switchLiveTab('templates')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">📋 模板库</div>
+            <div class="live-tab" data-tab="keywords" onclick="switchLiveTab('keywords')" style="padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-tertiary);">🏷️ 检测到的关键词</div>
+          </div>
+          <div id="liveTab-preview" style="padding:var(--space-md);min-height:80px;">
+            <div style="display:flex;gap:var(--space-md);">
+              <div style="flex:1;">
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-tertiary);margin-bottom:4px;">原始输入</div>
+                <div id="liveOriginal" style="font-size:12px;color:var(--text-tertiary);line-height:1.6;padding:8px;background:var(--bg-input);border-radius:6px;min-height:40px;">等待输入...</div>
+              </div>
+              <div style="display:flex;align-items:center;color:var(--text-tertiary);"><i class="fas fa-arrow-right"></i></div>
+              <div style="flex:1;">
+                <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--color-primary-light);margin-bottom:4px;">AI优化后</div>
+                <div id="liveOptimized" style="font-size:12px;color:var(--text-secondary);line-height:1.6;padding:8px;background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.1);border-radius:6px;min-height:40px;">输入内容后将在此显示AI优化结果...</div>
+              </div>
+            </div>
+          </div>
+          <div id="liveTab-templates" style="display:none;padding:var(--space-md);">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;">
+              <div class="tpl-chip" onclick="useTemplate('portrait')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">👤 人物肖像</div>
+              <div class="tpl-chip" onclick="useTemplate('scene')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🌄 风景场景</div>
+              <div class="tpl-chip" onclick="useTemplate('char')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">👥 人物+场景</div>
+              <div class="tpl-chip" onclick="useTemplate('fantasy')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🧙 奇幻</div>
+              <div class="tpl-chip" onclick="useTemplate('future')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🤖 未来科技</div>
+              <div class="tpl-chip" onclick="useTemplate('ancient')" style="padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;color:var(--text-secondary);">🏯 古风</div>
+            </div>
+          </div>
+          <div id="liveTab-keywords" style="display:none;padding:var(--space-md);">
+            <div id="keywordTags" style="display:flex;gap:6px;flex-wrap:wrap;min-height:40px;color:var(--text-tertiary);font-size:12px;">输入内容后将在此显示检测到的关键词分类...</div>
+          </div>
+        </div>
+
         <!-- Image-to-Image Upload -->
         <div style="margin-bottom:var(--space-lg);">
           <div style="display:flex;gap:12px;align-items:center;margin-bottom:var(--space-sm);">
@@ -218,6 +253,7 @@
     }
     document.getElementById('promptInput').addEventListener('input', function() {
       updateCharCount();
+      updateLivePreview();
       document.getElementById('optimizedBox').style.display = 'none';
     });
 
@@ -330,6 +366,69 @@
       document.execCommand('copy');
       document.body.removeChild(ta);
       alert('✅ 提示词已复制到剪贴板');
+    }
+
+    // ===== 实时预览 =====
+    function updateLivePreview() {
+      var input = document.getElementById('promptInput').value.trim();
+      var orig = document.getElementById('liveOriginal');
+      var opt = document.getElementById('liveOptimized');
+      var kw = document.getElementById('keywordTags');
+      
+      if (!input) {
+        if (orig) orig.textContent = '等待输入...';
+        if (opt) opt.textContent = '输入内容后将在此显示AI优化结果...';
+        if (kw) kw.innerHTML = '<span style="color:var(--text-tertiary);">输入内容后将在此显示检测到的关键词分类...</span>';
+        return;
+      }
+      
+      if (orig) orig.textContent = input;
+      
+      // 使用优化引擎
+      var type = document.getElementById('imageType').value;
+      var result = optimizePrompt(input, type, {});
+      if (opt) opt.textContent = result.optimized;
+      
+      // 显示关键词
+      if (kw) {
+        var tags = [];
+        if (result.keywords.subjects.length) tags.push('<span style="padding:2px 10px;background:rgba(124,58,237,0.15);color:var(--color-primary-light);border-radius:12px;font-size:11px;">👤 ' + result.keywords.subjects.length + '个人物</span>');
+        if (result.keywords.environments.length) tags.push('<span style="padding:2px 10px;background:rgba(6,182,212,0.15);color:var(--color-accent-light);border-radius:12px;font-size:11px;">🌄 ' + result.keywords.environments.length + '个场景</span>');
+        if (result.keywords.styles.length) tags.push('<span style="padding:2px 10px;background:rgba(34,197,94,0.15);color:#4ADE80;border-radius:12px;font-size:11px;">🎨 ' + result.keywords.styles.length + '个风格</span>');
+        if (result.keywords.lighting.length) tags.push('<span style="padding:2px 10px;background:rgba(249,115,22,0.15);color:#FB923C;border-radius:12px;font-size:11px;">☀️ ' + result.keywords.lighting.length + '个光照</span>');
+        if (result.keywords.emotions.length) tags.push('<span style="padding:2px 10px;background:rgba(236,72,153,0.15);color:#F472B6;border-radius:12px;font-size:11px;">😊 ' + result.keywords.emotions.length + '个表情</span>');
+        if (result.keywords.compositions.length) tags.push('<span style="padding:2px 10px;background:rgba(251,191,36,0.15);color:#FBBF24;border-radius:12px;font-size:11px;">📐 ' + result.keywords.compositions.length + '个构图</span>');
+        if (result.keywords.clothing.length) tags.push('<span style="padding:2px 10px;background:rgba(168,85,247,0.15);color:#A78BFA;border-radius:12px;font-size:11px;">👗 ' + result.keywords.clothing.length + '个服装</span>');
+        kw.innerHTML = tags.length ? tags.join(' ') : '<span style="color:var(--text-tertiary);font-size:11px;">未检测到关键词，建议使用更具体的描述</span>';
+      }
+    }
+
+    // ===== 标签切换 =====
+    function switchLiveTab(tab) {
+      document.querySelectorAll('.live-tab').forEach(function(t) {
+        t.style.borderBottomColor = t.getAttribute('data-tab') === tab ? 'var(--color-primary)' : 'transparent';
+        t.style.color = t.getAttribute('data-tab') === tab ? 'var(--color-primary-light)' : 'var(--text-tertiary)';
+      });
+      ['preview','templates','keywords'].forEach(function(t) {
+        var el = document.getElementById('liveTab-' + t);
+        if (el) el.style.display = t === tab ? 'block' : 'none';
+      });
+    }
+
+    // ===== 模板填充 =====
+    function useTemplate(type) {
+      var templates = {
+        portrait: '一位优雅的年轻女性，穿着时尚服装，在柔和光线下微笑，特写肖像，精致妆容',
+        scene: '壮丽的自然风景，金色日落照耀着连绵起伏的山脉，云海翻涌，宁静致远',
+        char: '一个旅行者站在山巅眺望远方的城市，夕阳映照，微风吹动衣角，剪影效果',
+        fantasy: '一个精灵法师在魔法森林中施展法术，荧光环绕，神秘氛围，梦幻色调',
+        future: '未来城市街景，全息广告牌，飞行汽车穿行，霓虹灯光，雨夜赛博朋克氛围',
+        ancient: '古代仕女在庭院中抚琴，汉服飘逸，樱花飘落，水墨画风格，古典意境'
+      };
+      var ta = document.getElementById('promptInput');
+      ta.value = templates[type] || templates.portrait;
+      updateCharCount();
+      updateLivePreview();
     }
 
     // ===== 图生图：参考图上传 =====
