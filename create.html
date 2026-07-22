@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>³¤ÊÓÆµ¹¤×÷ÊÒ - CineAI Ò»Õ¾Ê½³¤ÊÓÆµ´´×÷</title>
-  <meta name="description" content="CineAI Ò»Õ¾Ê½³¤ÊÓÆµ¹¤×÷ÊÒ£º½Å±¾²ğ½â¡ú¶à¾µÍ·Éú³É¡úÁ´Ê½À©Õ¹¡úÖÇÄÜÆ´½Ó">
-  <meta property="og:title" content="³¤ÊÓÆµ¹¤×÷ÊÒ - CineAI">
-  <meta property="og:description" content="Ò»Õ¾Ê½AI³¤ÊÓÆµ´´×÷">
+  <title>é•¿è§†é¢‘å·¥ä½œå®¤ - CineAI ä¸€ç«™å¼é•¿è§†é¢‘åˆ›ä½œ</title>
+  <meta name="description" content="CineAI ä¸€ç«™å¼é•¿è§†é¢‘å·¥ä½œå®¤ï¼šè„šæœ¬æ‹†è§£â†’å¤šé•œå¤´ç”Ÿæˆâ†’é“¾å¼æ‰©å±•â†’æ™ºèƒ½æ‹¼æ¥">
+  <meta property="og:title" content="é•¿è§†é¢‘å·¥ä½œå®¤ - CineAI">
+  <meta property="og:description" content="ä¸€ç«™å¼AIé•¿è§†é¢‘åˆ›ä½œ">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,31 +39,31 @@
   <nav class="nav"><div class="nav-inner">
     <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
     <div class="nav-links">
-      <a href="index.html">Ê×Ò³</a> <a href="apps.html">AI¹¤¾ß</a> <a href="workflow.html">Ğ­×÷¹¤×÷Á÷</a>
-      <a href="create.html" class="active">³¤ÊÓÆµ¹¤×÷ÊÒ</a> <a href="image.html">AIÍ¼Æ¬</a> <a href="characters.html">½ÇÉ«¿â</a> <a href="pricing.html">¶¨¼Û</a> <a href="help.html">°ïÖú</a> <a href="showcase.html">°¸Àı</a> <a href="about.html">¹ØÓÚ</a>
+      <a href="index.html">é¦–é¡µ</a> <a href="apps.html">AIå·¥å…·</a> <a href="workflow.html">åä½œå·¥ä½œæµ</a>
+      <a href="create.html" class="active">é•¿è§†é¢‘å·¥ä½œå®¤</a> <a href="image.html">AIå›¾ç‰‡</a> <a href="characters.html">è§’è‰²åº“</a> <a href="pricing.html">å®šä»·</a> <a href="help.html">å¸®åŠ©</a> <a href="showcase.html">æ¡ˆä¾‹</a> <a href="about.html">å…³äº</a>
     </div>
   </div></nav>
   
   <div class="studio">
     <div class="studio-topbar">
-      <h1><i class="fas fa-film" style="color:var(--color-primary-light);"></i> <span id="projectName">Î´ÃüÃûÏîÄ¿</span></h1>
-      <div><button class="btn btn-primary btn-sm" id="generateAllBtn"><i class="fas fa-play"></i> Éú³ÉÈ«²¿¾µÍ·</button></div>
+      <h1><i class="fas fa-film" style="color:var(--color-primary-light);"></i> <span id="projectName">æœªå‘½åé¡¹ç›®</span></h1>
+      <div><button class="btn btn-primary btn-sm" id="generateAllBtn"><i class="fas fa-play"></i> ç”Ÿæˆå…¨éƒ¨é•œå¤´</button></div>
     </div>
     <div class="studio-body">
       <div class="studio-sidebar">
         <div class="studio-sb-section">
-          <h3>ÏîÄ¿ÉèÖÃ</h3>
-          <input id="projectTitleInput" value="ÎÒµÄ³¤ÊÓÆµ" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;width:100%;margin-bottom:8px;" placeholder="ÏîÄ¿Ãû³Æ">
+          <h3>é¡¹ç›®è®¾ç½®</h3>
+          <input id="projectTitleInput" value="æˆ‘çš„é•¿è§†é¢‘" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;width:100%;margin-bottom:8px;" placeholder="é¡¹ç›®åç§°">
           <div style="display:flex;gap:8px;margin-bottom:8px;">
-            <input id="totalDurationInput" type="number" value="60" min="30" max="600" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;width:70px;" placeholder="Ãë">
+            <input id="totalDurationInput" type="number" value="60" min="30" max="600" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;width:70px;" placeholder="ç§’">
             <select id="sceneCountSelect" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px;color:var(--text-primary);font-size:13px;outline:none;flex:1;">
-              <option value="4">4¾µÍ·</option><option value="6" selected>6¾µÍ·</option><option value="8">8¾µÍ·</option>
+              <option value="4">4é•œå¤´</option><option value="6" selected>6é•œå¤´</option><option value="8">8é•œå¤´</option>
             </select>
           </div>
-          <button class="btn btn-ghost btn-sm" onclick="splitScript()" style="width:100%;"><i class="fas fa-scissors"></i> ²ğ·ÖÎª¾µÍ·</button>
+          <button class="btn btn-ghost btn-sm" onclick="splitScript()" style="width:100%;"><i class="fas fa-scissors"></i> æ‹†åˆ†ä¸ºé•œå¤´</button>
         </div>
         <div class="studio-sb-section">
-          <h3>½ø¶È</h3>
+          <h3>è¿›åº¦</h3>
           <div class="total-bar"><div class="total-bar-fill" id="progressBar" style="width:0%"></div></div>
           <div style="font-size:11px;color:var(--text-tertiary);"><span id="doneCount">0</span>/<span id="totalCount">0</span></div>
         </div>
@@ -71,18 +71,18 @@
       </div>
       <div class="studio-main">
         <div class="studio-tabs">
-          <div class="studio-tab active" data-tab="script" onclick="switchTab('script')">”9ß5 ½Å±¾</div>
-          <div class="studio-tab" data-tab="scenes" onclick="switchTab('scenes')">”9Á0 ¾µÍ·</div>
-          <div class="studio-tab" data-tab="preview" onclick="switchTab('preview')">”9¿6„1‚5 Ô¤ÀÀ</div>
+          <div class="studio-tab active" data-tab="script" onclick="switchTab('script')">?? è„šæœ¬</div>
+          <div class="studio-tab" data-tab="scenes" onclick="switchTab('scenes')">?? é•œå¤´</div>
+          <div class="studio-tab" data-tab="preview" onclick="switchTab('preview')">???? é¢„è§ˆ</div>
         </div>
         <div class="studio-content">
           <div id="tab-script">
-            <h3>ÊÓÆµ½Å±¾</h3>
-            <textarea id="scriptInput" style="width:100%;min-height:260px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;padding:16px;color:var(--text-primary);font-size:14px;line-height:1.8;resize:vertical;outline:none;font-family:inherit;" placeholder="ÊäÈëÍêÕûÊÓÆµ½Å±¾...ÀıÈç£ºÇå³¿µÄÑô¹âÈ÷ÔÚºşÃæÉÏ£¬±¡ÎíÉıÆğ£¬Ò»Ö»°×ğØ·É¹ıË®Ãæ..."></textarea>
-            <div style="margin-top:12px;"><button class="btn btn-primary" onclick="splitScript()"><i class="fas fa-scissors"></i> ²ğ·ÖÎª¾µÍ·</button></div>
+            <h3>è§†é¢‘è„šæœ¬</h3>
+            <textarea id="scriptInput" style="width:100%;min-height:260px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:8px;padding:16px;color:var(--text-primary);font-size:14px;line-height:1.8;resize:vertical;outline:none;font-family:inherit;" placeholder="è¾“å…¥å®Œæ•´è§†é¢‘è„šæœ¬...ä¾‹å¦‚ï¼šæ¸…æ™¨çš„é˜³å…‰æ´’åœ¨æ¹–é¢ä¸Šï¼Œè–„é›¾å‡èµ·ï¼Œä¸€åªç™½é¹­é£è¿‡æ°´é¢..."></textarea>
+            <div style="margin-top:12px;"><button class="btn btn-primary" onclick="splitScript()"><i class="fas fa-scissors"></i> æ‹†åˆ†ä¸ºé•œå¤´</button></div>
           </div>
           <div id="tab-scenes" style="display:none;"><div id="sceneListContainer"></div></div>
-          <div id="tab-preview" style="display:none;"><div class="assembly-preview" id="assemblyPreview"><h3>µÈ´ı¾µÍ·Éú³É</h3></div></div>
+          <div id="tab-preview" style="display:none;"><div class="assembly-preview" id="assemblyPreview"><h3>ç­‰å¾…é•œå¤´ç”Ÿæˆ</h3></div></div>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
     var scenes = [];
     function splitScript() {
       var text = document.getElementById('scriptInput').value.trim();
-      if (!text) { alert('ÇëÏÈÊäÈëÊÓÆµ½Å±¾'); return; }
+      if (!text) { alert('è¯·å…ˆè¾“å…¥è§†é¢‘è„šæœ¬'); return; }
       var parts = text.split('\n').filter(function(p){ return p.trim(); });
       var count = parseInt(document.getElementById('sceneCountSelect').value);
       var totalDur = parseInt(document.getElementById('totalDurationInput').value) || 60;
@@ -100,30 +100,30 @@
       scenes = [];
       for (var i = 0; i < count; i++) {
         var g = [];
-        for (var j = i * perScene; j < (i + 1) * perScene && j < parts.length; j++) g.push(parts[j].replace(/¡¾[^¡¿]*¡¿/g,'').trim());
-        var p = g.join('£¬') || ('³¡¾°' + (i+1));
+        for (var j = i * perScene; j < (i + 1) * perScene && j < parts.length; j++) g.push(parts[j].replace(/ã€[^ã€‘]*ã€‘/g,'').trim());
+        var p = g.join('ï¼Œ') || ('åœºæ™¯' + (i+1));
         scenes.push({ id:i, prompt:p, duration:Math.max(5,Math.min(15,Math.round(totalDur/count))), status:'pending', expanded:i===0 });
       }
       renderScenes(); renderMini(); updateProgress(); switchTab('scenes');
     }
     function renderScenes() {
       var c = document.getElementById('sceneListContainer');
-      if (!scenes.length) { c.innerHTML = '<div style="padding:40px;color:var(--text-tertiary);text-align:center;">ÇëÏÈÔÚ½Å±¾Ò³²ğ·Ö</div>'; return; }
+      if (!scenes.length) { c.innerHTML = '<div style="padding:40px;color:var(--text-tertiary);text-align:center;">è¯·å…ˆåœ¨è„šæœ¬é¡µæ‹†åˆ†</div>'; return; }
       var h = '';
       for (var i = 0; i < scenes.length; i++) {
         var s = scenes[i];
-        h += '<div class="scene-card"><div class="scene-card-header" onclick="scenes[' + i + '].expanded=!scenes[' + i + '].expanded;renderScenes()"><div class="scene-num">' + (i+1) + '</div><div style="flex:1;font-size:13px;font-weight:600;">¾µÍ·' + (i+1) + ' ¡¤ ' + s.duration + 's</div><span style="font-size:11px;color:var(--text-tertiary);">' + {pending:'´ıÉú³É',generating:'Éú³ÉÖĞ',done:'ÒÑÍê³É'}[s.status] + '</span></div>' +
+        h += '<div class="scene-card"><div class="scene-card-header" onclick="scenes[' + i + '].expanded=!scenes[' + i + '].expanded;renderScenes()"><div class="scene-num">' + (i+1) + '</div><div style="flex:1;font-size:13px;font-weight:600;">é•œå¤´' + (i+1) + ' Â· ' + s.duration + 's</div><span style="font-size:11px;color:var(--text-tertiary);">' + {pending:'å¾…ç”Ÿæˆ',generating:'ç”Ÿæˆä¸­',done:'å·²å®Œæˆ'}[s.status] + '</span></div>' +
         '<div style="display:' + (s.expanded?'block':'none') + ';padding:0 16px 16px;"><textarea style="width:100%;min-height:60px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:12px;color:var(--text-primary);font-size:13px;outline:none;font-family:inherit;" onchange="scenes[' + i + '].prompt=this.value">' + s.prompt + '</textarea>' +
-        '<div style="margin-top:8px;"><button class="btn btn-primary btn-sm" onclick="genScene(' + i + ')"><i class="fas fa-play"></i> Éú³É</button></div></div></div>';
+        '<div style="margin-top:8px;"><button class="btn btn-primary btn-sm" onclick="genScene(' + i + ')"><i class="fas fa-play"></i> ç”Ÿæˆ</button></div></div></div>';
       }
       c.innerHTML = h;
     }
     function renderMini() {
       var c = document.getElementById('sceneMiniList');
-      if (!scenes.length) { c.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--text-tertiary);text-align:center;">ÏÈ²ğ·Ö½Å±¾</div>'; return; }
+      if (!scenes.length) { c.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--text-tertiary);text-align:center;">å…ˆæ‹†åˆ†è„šæœ¬</div>'; return; }
       var h = '';
       for (var i = 0; i < scenes.length; i++) {
-        h += '<div class="scene-mini"><div class="status-dot" style="background:' + {pending:'var(--text-tertiary)',generating:'var(--color-accent)',done:'#22C55E'}[scenes[i].status] + '"></div><span style="flex:1;font-size:12px;">¾µÍ·' + (i+1) + '</span><span style="font-size:10px;color:var(--text-tertiary);">' + scenes[i].duration + 's</span></div>';
+        h += '<div class="scene-mini"><div class="status-dot" style="background:' + {pending:'var(--text-tertiary)',generating:'var(--color-accent)',done:'#22C55E'}[scenes[i].status] + '"></div><span style="flex:1;font-size:12px;">é•œå¤´' + (i+1) + '</span><span style="font-size:10px;color:var(--text-tertiary);">' + scenes[i].duration + 's</span></div>';
       }
       c.innerHTML = h;
     }
