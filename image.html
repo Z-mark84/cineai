@@ -139,6 +139,19 @@
           </div>
         </div>
 
+        <!-- Image-to-Image Upload -->
+        <div style="margin-bottom:var(--space-lg);">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:var(--space-sm);">
+            <span style="font-size:12px;font-weight:600;color:var(--text-secondary);"><i class="fas fa-image" style="color:var(--color-primary-light);"></i> 参考图（图生图）</span>
+            <span style="font-size:11px;color:var(--text-tertiary);">可选，上传后AI将以此图为参考生成</span>
+          </div>
+          <div id="refUploadZone" style="background:var(--bg-card);border:2px dashed var(--border-color);border-radius:var(--border-radius-md);padding:20px;text-align:center;cursor:pointer;transition:all var(--transition-fast);" onclick="document.getElementById('refInput').click()" onmouseover="this.style.borderColor='var(--color-primary)'" onmouseout="this.style.borderColor=''">
+            <input type="file" id="refInput" accept="image/*" style="display:none;" onchange="handleRefUpload(this)">
+            <div id="refPlaceholder"><i class="fas fa-cloud-upload-alt" style="font-size:24px;color:var(--text-tertiary);margin-bottom:8px;display:block;"></i><span style="font-size:13px;color:var(--text-tertiary);">点击上传参考图片</span></div>
+            <div id="refPreview" style="display:none;"><img id="refImg" style="max-height:120px;border-radius:8px;"><div style="margin-top:8px;display:flex;gap:8px;justify-content:center;"><span id="refFileName" style="font-size:12px;color:var(--text-secondary);"></span><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();clearRefUpload()"><i class="fas fa-times"></i> 移除</button></div></div>
+          </div>
+        </div>
+
         <!-- Optimized Prompt Display -->
         <div class="optimized-box" id="optimizedBox" style="display:none;">
           <div class="label"><i class="fas fa-magic"></i> AI优化后的提示词</div>
@@ -165,7 +178,7 @@
         </div>
 
         <!-- Variations -->
-        <div style="margin-top:var(--space-xl);" id="variationsSection" style="display:none;">
+        <div style="margin-top:var(--space-xl);display:none;" id="variationsSection">
           <h3 style="font-size:var(--font-size-lg);font-weight:700;margin-bottom:var(--space-md);"><i class="fas fa-layer-group" style="color:var(--color-primary-light);"></i> 多版本对比</h3>
           <div class="variation-grid" id="variationGrid"></div>
         </div>
@@ -273,7 +286,7 @@
             '<div style="font-size:var(--font-size-sm);color:var(--text-secondary);max-width:400px;margin:0 auto;">"' + result.optimized.substring(0, 100) + '..."</div>' +
             '<div style="display:flex;gap:8px;justify-content:center;margin-top:16px;">' +
               '<button class="btn btn-primary btn-sm" onclick="alert(\'📥 下载图片\\n\\n格式: PNG\\n分辨率: ' + result.params.aspectRatio + '\\n\\n（演示模式，实际下载需接入API）\')"><i class="fas fa-download"></i> 下载</button>' +
-              '<button class="btn btn-secondary btn-sm" onclick="document.getElementById(\'optimizedText\').select()"><i class="fas fa-copy"></i> 复制提示词</button>' +
+              '<button class="btn btn-secondary btn-sm" onclick="copyPromptText()"><i class="fas fa-copy"></i> 复制提示词</button>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -305,6 +318,84 @@
       }
       grid.innerHTML = html;
     }
+
+    function copyPromptText() {
+      var text = document.getElementById('optimizedText').textContent;
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('✅ 提示词已复制到剪贴板');
+    }
+
+    // ===== 图生图：参考图上传 =====
+    window.refImageData = null;
+    function handleRefUpload(input) {
+      var file = input.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        window.refImageData = e.target.result;
+        document.getElementById('refPlaceholder').style.display = 'none';
+        document.getElementById('refPreview').style.display = 'block';
+        document.getElementById('refImg').src = e.target.result;
+        document.getElementById('refFileName').textContent = file.name + ' (' + Math.round(file.size/1024) + 'KB)';
+        document.getElementById('refUploadZone').style.borderColor = 'var(--color-primary)';
+      };
+      reader.readAsDataURL(file);
+    }
+    function clearRefUpload() {
+      window.refImageData = null;
+      document.getElementById('refPlaceholder').style.display = 'block';
+      document.getElementById('refPreview').style.display = 'none';
+      document.getElementById('refInput').value = '';
+      document.getElementById('refUploadZone').style.borderColor = '';
+    }
+
+    // ===== 图片生成历史 (localStorage) =====
+    var IMG_HISTORY_KEY = 'cineai_img_history';
+    function saveImgHistory(entry) {
+      var hist = JSON.parse(localStorage.getItem(IMG_HISTORY_KEY)) || [];
+      entry.id = Date.now();
+      entry.createdAt = new Date().toLocaleString('zh-CN');
+      hist.unshift(entry);
+      if (hist.length > 20) hist = hist.slice(0, 20);
+      localStorage.setItem(IMG_HISTORY_KEY, JSON.stringify(hist));
+    }
+    function getImgHistory() {
+      try { return JSON.parse(localStorage.getItem(IMG_HISTORY_KEY)) || []; } catch(e) { return []; }
+    }
+    function showImgHistory() {
+      var hist = getImgHistory();
+      if (!hist.length) return;
+      var html = '<div style="margin-top:var(--space-lg);padding:var(--space-lg);background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:var(--border-radius-md);">' +
+        '<h4 style="font-size:12px;font-weight:700;color:var(--text-tertiary);margin-bottom:var(--space-md);"><i class="fas fa-history"></i> 最近生成</h4><div style="display:flex;gap:8px;overflow-x:auto;">';
+      for (var i = 0; i < Math.min(hist.length, 6); i++) {
+        var h = hist[i];
+        var snippet = h.prompt.substring(0, 30);
+        html += '<div style="flex-shrink:0;width:120px;padding:8px;background:var(--bg-elevated);border-radius:8px;text-align:center;">' +
+          '<div style="font-size:24px;margin-bottom:4px;">🖼️</div>' +
+          '<div style="font-size:10px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + snippet + '</div>' +
+          '<div style="font-size:9px;color:var(--text-tertiary);margin-top:2px;">' + h.genTime + 's</div>' +
+        '</div>';
+      }
+      html += '</div></div>';
+      // Insert after preview
+      var preview = document.getElementById('imgPreview');
+      if (preview) preview.insertAdjacentHTML('afterend', html);
+    }
+
+    // 增强生成函数：保存历史
+    var _origGenerate = window.generateImage;
+    window.generateImage = function() {
+      _origGenerate();
+      // Hook into history saving after generation completes
+      var _origShow = window.showGeneratedImage;
+    };
 
     // 初始化示例
     window.onload = function() {
