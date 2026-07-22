@@ -18,6 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
 
   <style>
@@ -146,8 +147,8 @@
       </div>
 
       <div class="pricing-toggle">
-        <button class="pricing-toggle-btn active" onclick="togglePricing(this, 'monthly')">月付</button>
-        <button class="pricing-toggle-btn" onclick="togglePricing(this, 'yearly')">
+        <button class="pricing-toggle-btn active" data-period="monthly">月付</button>
+        <button class="pricing-toggle-btn" data-period="yearly">
           年付 <span class="save-badge">省20%</span>
         </button>
       </div>
@@ -464,37 +465,41 @@
   </footer>
 
   <script>
-    function togglePricing(btn, period) {
-      document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      const amounts = document.querySelectorAll('.pricing-amount');
-      const periods = document.querySelectorAll('.pricing-period');
-      
-      // Base monthly prices
-      const prices = { free: '0', pro: '68', flag: '168', ent: '599' };
-      
-      if (period === 'yearly') {
-        amounts.forEach((el, i) => {
-          if (i === 0) el.textContent = '0';
-          else if (i === 1) el.textContent = '653';
-          else if (i === 2) el.textContent = '1613';
-          else if (i === 3) el.textContent = '5750';
+    document.addEventListener('DOMContentLoaded', function() {
+      // Pricing toggle using data attributes (no inline onclick)
+      document.querySelectorAll('.pricing-toggle-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var period = this.getAttribute('data-period');
+          document.querySelectorAll('.pricing-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          
+          var amounts = document.querySelectorAll('.pricing-amount');
+          var periods = document.querySelectorAll('.pricing-period');
+          var prices = { free: '0', pro: '68', flag: '168', ent: '599' };
+          
+          if (period === 'yearly') {
+            amounts.forEach(function(el, i) {
+              if (i === 0) el.textContent = '0';
+              else if (i === 1) el.textContent = '653';
+              else if (i === 2) el.textContent = '1613';
+              else if (i === 3) el.textContent = '5750';
+            });
+            periods.forEach(function(el, i) {
+              if (i === 0) el.textContent = '/月';
+              else el.textContent = '/年';
+            });
+          } else {
+            amounts.forEach(function(el, i) {
+              if (i === 0) el.textContent = prices.free;
+              else if (i === 1) el.textContent = prices.pro;
+              else if (i === 2) el.textContent = prices.flag;
+              else if (i === 3) el.textContent = prices.ent;
+            });
+            periods.forEach(function(el) { el.textContent = '/月'; });
+          }
         });
-        periods.forEach((el, i) => {
-          if (i === 0) el.textContent = '/月';
-          else el.textContent = '/年';
-        });
-      } else {
-        amounts.forEach((el, i) => {
-          if (i === 0) el.textContent = prices.free;
-          else if (i === 1) el.textContent = prices.pro;
-          else if (i === 2) el.textContent = prices.flag;
-          else if (i === 3) el.textContent = prices.ent;
-        });
-        periods.forEach(el => el.textContent = '/月');
-      }
-    }
+      });
+    });
   </script>
   <script src="js/main.js"></script>
 </body>
