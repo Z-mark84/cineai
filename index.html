@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineAI - AI长视频创作平台 | 智能生成高质量视频</title>
+  <meta name="description" content="CineAI 是新一代AI长视频创作平台，支持文本到视频、图像到视频、智能编辑等功能，让每个人都能轻松创作专业级长视频内容。">
+  <meta name="keywords" content="AI视频生成, 长视频, AI创作, 文生视频, 图生视频, AI视频编辑">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="CineAI - AI长视频创作平台">
+  <meta property="og:description" content="用AI智能生成高质量长视频内容，一分钟创作专业级影片">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cineai.ai/og-image.png">
+  <meta property="og:url" content="https://cineai.ai">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">C</div>
+        CineAI
+      </a>
+      
+      <div class="nav-links">
+        <a href="index.html" class="active">首页</a>
+        <a href="create.html">创作中心</a>
+        <a href="pricing.html">定价</a>
+        <a href="about.html">关于我们</a>
+      </div>
+      
+      <div class="nav-actions">
+        <a href="create.html" class="btn btn-primary btn-sm">
+          <i class="fas fa-wand-magic-sparkles"></i> 开始创作
+        </a>
+        <button class="mobile-menu-btn" aria-label="打开菜单">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <a href="index.html" class="active">首页</a>
+    <a href="create.html">创作中心</a>
+    <a href="pricing.html">定价方案</a>
+    <a href="about.html">关于我们</a>
+    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;border-bottom:none;">
+      <i class="fas fa-wand-magic-sparkles"></i> 开始创作
+    </a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-effects">
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+      <div class="hero-glow hero-glow-3"></div>
+      <div class="hero-grid-bg"></div>
+    </div>
+    
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            AI 视频生成 3.0 时代已到来
+          </div>
+          
+          <h1 class="hero-title">
+            用 <span class="highlight">AI</span> 创作<br>震撼人心的长视频
+          </h1>
+          
+          <p class="hero-desc">
+            CineAI 是新一代AI长视频创作平台。输入你的想法，AI自动完成剧本、分镜、生成、剪辑全流程，让你在几分钟内获得专业级视频作品。
+          </p>
+          
+          <div class="hero-actions">
+            <a href="create.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-wand-magic-sparkles"></i> 免费开始创作
+            </a>
+            <a href="#features" class="btn btn-secondary btn-lg">
+              <i class="fas fa-play"></i> 观看演示
+            </a>
+          </div>
+          
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-value">500万+</div>
+              <div class="hero-stat-label">视频生成</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">120+</div>
+              <div class="hero-stat-label">国家用户</div>
+            </div>
+            <div>
+              <div class="hero-stat-value">98.6%</div>
+              <div class="hero-stat-label">满意率</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-visual">
+          <div class="hero-video-mock">
+            <div class="mock-video-bar">
+              <span class="mock-video-dot"></span>
+              <span class="mock-video-dot"></span>
+              <span class="mock-video-dot"></span>
+            </div>
+            <div class="mock-video-content">
+              <div class="mock-frame">
+                <div class="mock-frame-inner">
+                  <span class="mock-frame-label">AI 生成预览</span>
+                </div>
+              </div>
+              <div class="play-btn">
+                <i class="fas fa-play" style="font-size:24px;color:white;margin-left:3px;"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hero-floating-badge floating-badge-1 fade-in fade-in-delay-3">
+            <div class="floating-badge-icon">
+              <i class="fas fa-film"></i>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:14px;">4K 画质</div>
+              <div style="font-size:12px;color:var(--text-tertiary);">超高清输出</div>
+            </div>
+          </div>
+          
+          <div class="hero-floating-badge floating-badge-2 fade-in fade-in-delay-4">
+            <div class="floating-badge-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:14px;">5分钟生成</div>
+              <div style="font-size:12px;color:var(--text-tertiary);">60秒长视频</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">核心功能</span>
+        <h2 class="section-title">一站式 AI 视频创作</h2>
+        <p class="section-subtitle">从构思到成品，AI 贯穿整个创作流程，让视频制作前所未有的简单</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll fade-in-delay-1">
+          <div class="feature-icon purple">
+            <i class="fas fa-pen-fancy"></i>
+          </div>
+          <h3 class="feature-title">文生视频 (Text-to-Video)</h3>
+          <p class="feature-desc">输入文字描述，AI 自动理解你的创意，生成匹配的高质量视频画面。支持中英文双语提示。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="feature-card animate-on-scroll fade-in-delay-2">
+          <div class="feature-icon cyan">
+            <i class="fas fa-image"></i>
+          </div>
+          <h3 class="feature-title">图生视频 (Image-to-Video)</h3>
+          <p class="feature-desc">上传图片作为起始帧，AI 自动生成连续动态视频。也支持首尾帧控制，精确引导视频内容。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="feature-card animate-on-scroll fade-in-delay-3">
+          <div class="feature-icon green">
+            <i class="fas fa-scissors"></i>
+          </div>
+          <h3 class="feature-title">智能视频编辑</h3>
+          <p class="feature-desc">AI 驱动的视频剪辑工具：风格转换、背景替换、局部修改、视频扩展，一切无需专业软件。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="feature-card animate-on-scroll fade-in-delay-1">
+          <div class="feature-icon orange">
+            <i class="fas fa-microphone"></i>
+          </div>
+          <h3 class="feature-title">AI 配音与音效</h3>
+          <p class="feature-desc">自动生成与画面匹配的配音、背景音乐和音效。支持2000+种声音风格和160+种语言。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="feature-card animate-on-scroll fade-in-delay-2">
+          <div class="feature-icon pink">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <h3 class="feature-title">角色一致性</h3>
+          <p class="feature-desc">同一角色在多镜头中保持面部特征、着装、体态一致。适合叙事性长视频的内容创作。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <div class="feature-card animate-on-scroll fade-in-delay-3">
+          <div class="feature-icon blue">
+            <i class="fas fa-film"></i>
+          </div>
+          <h3 class="feature-title">长视频分镜</h3>
+          <p class="feature-desc">AI 自动将长视频分割为多场景、多镜头，保持叙事连贯性。支持60秒以上的长视频生成。</p>
+          <a href="create.html" class="feature-link">
+            开始体验 <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process / Workflow Section -->
+  <section class="section" style="background:var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">创作流程</span>
+        <h2 class="section-title">四步完成视频创作</h2>
+        <p class="section-subtitle">简单的操作流程，专业级的视频输出</p>
+      </div>
+      
+      <div class="process-steps">
+        <div class="process-step animate-on-scroll">
+          <div class="process-step-number">1</div>
+          <h3 class="process-step-title">输入创意</h3>
+          <p class="process-step-desc">用文字描述你的视频构思，或上传参考图片作为起点</p>
+        </div>
+        
+        <div class="process-step animate-on-scroll fade-in-delay-1">
+          <div class="process-step-number">2</div>
+          <h3 class="process-step-title">AI 生成</h3>
+          <p class="process-step-desc">选择模型和参数，AI 自动完成视频生成与多镜头编排</p>
+        </div>
+        
+        <div class="process-step animate-on-scroll fade-in-delay-2">
+          <div class="process-step-number">3</div>
+          <h3 class="process-step-title">智能优化</h3>
+          <p class="process-step-desc">使用AI编辑工具精调画面，添加配音和音效，完善细节</p>
+        </div>
+        
+        <div class="process-step animate-on-scroll fade-in-delay-3">
+          <div class="process-step-number">4</div>
+          <h3 class="process-step-title">导出发布</h3>
+          <p class="process-step-desc">一键导出4K高清视频，直接分享到各大社交平台</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">精选作品</span>
+        <h2 class="section-title">看看大家都创作了什么</h2>
+        <p class="section-subtitle">来自全球创作者的 AI 视频作品展示</p>
+      </div>
+      
+      <div class="showcase-grid">
+        <div class="showcase-item animate-on-scroll fade-in-delay-1">
+          <div class="showcase-thumb" style="background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));">
+            <div class="showcase-thumb-bg" style="background:radial-gradient(circle at 30% 40%,rgba(124,58,237,0.15),transparent 60%);"></div>
+            <span class="showcase-thumb-label">
+              <i class="fas fa-play"></i> 预览
+            </span>
+          </div>
+          <div class="showcase-info">
+            <h4>未来城市 · 科幻短片</h4>
+            <p>文生视频 · 45秒 · 4K</p>
+          </div>
+        </div>
+        
+        <div class="showcase-item animate-on-scroll fade-in-delay-2">
+          <div class="showcase-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(34,197,94,0.1));">
+            <div class="showcase-thumb-bg" style="background:radial-gradient(circle at 60% 30%,rgba(6,182,212,0.15),transparent 60%);"></div>
+            <span class="showcase-thumb-label">
+              <i class="fas fa-play"></i> 预览
+            </span>
+          </div>
+          <div class="showcase-info">
+            <h4>自然的呼吸 · 纪录片</h4>
+            <p>图生视频 · 60秒 · 4K</p>
+          </div>
+        </div>
+        
+        <div class="showcase-item animate-on-scroll fade-in-delay-3">
+          <div class="showcase-thumb" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(124,58,237,0.1));">
+            <div class="showcase-thumb-bg" style="background:radial-gradient(circle at 50% 50%,rgba(236,72,153,0.15),transparent 60%);"></div>
+            <span class="showcase-thumb-label">
+              <i class="fas fa-play"></i> 预览
+            </span>
+          </div>
+          <div class="showcase-info">
+            <h4>美食之旅 · 品牌广告</h4>
+            <p>文生视频 · 30秒 · 1080p</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Preview Section -->
+  <section class="section" style="background:var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">定价方案</span>
+        <h2 class="section-title">选择适合你的方案</h2>
+        <p class="section-subtitle">从个人创作者到企业团队，总有一款适合你</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card animate-on-scroll">
+          <h3 class="pricing-name">免费版</h3>
+          <p class="pricing-desc">适合初次体验</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">0</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 10 次生成</li>
+            <li>最长 15 秒视频</li>
+            <li>720p 分辨率</li>
+            <li>基础文生视频</li>
+            <li>社区模板</li>
+          </ul>
+          <a href="create.html" class="btn btn-ghost">免费使用</a>
+        </div>
+        
+        <div class="pricing-card animate-on-scroll fade-in-delay-1">
+          <h3 class="pricing-name">专业版</h3>
+          <p class="pricing-desc">个人创作者的理想之选</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">68</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 200 次生成</li>
+            <li>最长 60 秒视频</li>
+            <li>1080p 分辨率</li>
+            <li>文生视频 + 图生视频</li>
+            <li>AI 配音功能</li>
+            <li>无水印导出</li>
+          </ul>
+          <a href="create.html" class="btn btn-secondary">立即订阅</a>
+        </div>
+        
+        <div class="pricing-card featured animate-on-scroll fade-in-delay-2">
+          <span class="pricing-badge">最受欢迎</span>
+          <h3 class="pricing-name">旗舰版</h3>
+          <p class="pricing-desc">专业创作者首选</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">168</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 800 次生成</li>
+            <li>最长 180 秒视频</li>
+            <li>4K 分辨率</li>
+            <li>全功能模型访问</li>
+            <li>角色一致性功能</li>
+            <li>AI 配音 + 音效</li>
+            <li>优先生成队列</li>
+          </ul>
+          <a href="create.html" class="btn btn-primary">立即订阅</a>
+        </div>
+        
+        <div class="pricing-card animate-on-scroll fade-in-delay-3">
+          <h3 class="pricing-name">企业版</h3>
+          <p class="pricing-desc">满足团队协作需求</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">599</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>无限生成次数</li>
+            <li>最长 600 秒视频</li>
+            <li>4K + 8K 分辨率</li>
+            <li>团队协作空间</li>
+            <li>品牌套件(Brand Kit)</li>
+            <li>专用API接入</li>
+            <li>专属客户经理</li>
+          </ul>
+          <a href="about.html" class="btn btn-secondary">联系销售</a>
+        </div>
+      </div>
+      
+      <div style="text-align:center;margin-top:var(--space-xl);">
+        <a href="pricing.html" class="btn btn-ghost" style="text-decoration:underline;">
+          查看完整价格对比 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">常见问题</span>
+        <h2 class="section-title">你可能会想知道</h2>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item animate-on-scroll">
+          <div class="faq-question">
+            CineAI 生成的视频有多长？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            免费版支持最长15秒视频，专业版支持最长60秒，旗舰版支持最长180秒（3分钟），企业版支持最长600秒（10分钟）的长视频生成。所有版本均支持多镜头叙事。
+          </div>
+        </div>
+        
+        <div class="faq-item animate-on-scroll fade-in-delay-1">
+          <div class="faq-question">
+            生成一个视频需要多长时间？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            生成时间取决于视频长度和分辨率。15秒720p视频约需30秒，60秒1080p视频约需2-3分钟，180秒4K视频约需5-8分钟。旗舰版和企业版用户享有优先生成队列。
+          </div>
+        </div>
+        
+        <div class="faq-item animate-on-scroll fade-in-delay-2">
+          <div class="faq-question">
+            CineAI 支持哪些语言？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            提示词输入支持中文、英文等多种语言。AI 配音支持160+种语言和2000+种声音风格。界面目前支持简体中文和英文。
+          </div>
+        </div>
+        
+        <div class="faq-item animate-on-scroll fade-in-delay-3">
+          <div class="faq-question">
+            生成的视频版权归谁所有？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            你生成的视频版权完全归你所有。CineAI 不保留任何权利。付费用户可商用导出无水印视频。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-box animate-on-scroll">
+        <h2 class="cta-title">准备好创作你的第一部AI视频了吗？</h2>
+        <p class="cta-desc">无需专业设备，无需剪辑经验，用AI释放你的创意潜能。</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="create.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-wand-magic-sparkles"></i> 免费开始创作
+          </a>
+          <a href="about.html" class="btn btn-secondary btn-lg">
+            <i class="fas fa-info-circle"></i> 了解更多
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="nav-logo" style="font-size:var(--font-size-xl);">
+            <div class="nav-logo-icon">C</div>
+            CineAI
+          </a>
+          <p class="footer-brand-desc">
+            CineAI 是新一代AI长视频创作平台，致力于让每个人都能轻松创作专业级视频内容。
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="微博"><i class="fab fa-weibo"></i></a>
+            <a href="#" aria-label="微信"><i class="fab fa-weixin"></i></a>
+            <a href="#" aria-label="B站"><span style="font-size:16px;font-weight:700;">B站</span></a>
+            <a href="#" aria-label="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-col-title">产品</h4>
+          <a href="create.html">创作中心</a>
+          <a href="pricing.html">定价方案</a>
+          <a href="#">API 文档</a>
+          <a href="#">更新日志</a>
+          <a href="#">功能请求</a>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-col-title">资源</h4>
+          <a href="#">帮助中心</a>
+          <a href="#">教程指南</a>
+          <a href="#">社区论坛</a>
+          <a href="#">视频模板</a>
+          <a href="#">创作者博客</a>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-col-title">公司</h4>
+          <a href="about.html">关于我们</a>
+          <a href="about.html">联系方式</a>
+          <a href="#">加入我们</a>
+          <a href="#">合作伙伴</a>
+          <a href="#">媒体中心</a>
+        </div>
+        
+        <div class="footer-col">
+          <h4 class="footer-col-title">法律</h4>
+          <a href="#">服务条款</a>
+          <a href="#">隐私政策</a>
+          <a href="#">版权声明</a>
+          <a href="#">Cookie 政策</a>
+          <a href="#">GDPR 合规</a>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <span>&copy; 2026 CineAI. All rights reserved.</span>
+        <span>用 AI 让创作更简单</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
