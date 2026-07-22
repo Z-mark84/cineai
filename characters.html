@@ -166,7 +166,7 @@
       grid.innerHTML = html;
     }
 
-    function openCharModal() { editingCharId = null; document.getElementById('editCharId').value = ''; document.getElementById('charModalTitle').textContent = '新建角色'; document.getElementById('charName').value = ''; document.getElementById('charDesc').value = ''; document.getElementById('charTags').value = ''; document.getElementById('charImagePreview').style.display = 'none'; document.getElementById('charModal').classList.add('open'); }
+    function openCharModal() { editingCharId = null; document.getElementById('editCharId').value = ''; document.getElementById('charModalTitle').textContent = '新建角色'; document.getElementById('charName').value = ''; document.getElementById('charDesc').value = ''; document.getElementById('charTags').value = ''; document.getElementById('charImagePreview').style.display = 'none'; window.charImageData = null; document.getElementById('charModal').classList.add('open'); }
     function closeCharModal() { document.getElementById('charModal').classList.remove('open'); }
 
     window.charImageData = null;
