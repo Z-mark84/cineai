@@ -3,16 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>创作中心 - CineAI AI长视频创作平台</title>
-  <meta name="description" content="CineAI 创作中心 - 使用AI智能生成高质量长视频，支持文生视频、图生视频、智能编辑">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="创作中心 - CineAI AI长视频创作平台">
-  <meta property="og:description" content="CineAI 创作中心 - 使用AI智能生成高质量长视频">
+  <title>长视频工作室 - CineAI 一站式长视频创作</title>
+  <meta name="description" content="CineAI 一站式长视频工作室：脚本拆解→多镜头生成→链式扩展→智能拼接">
+  <meta property="og:title" content="长视频工作室 - CineAI">
+  <meta property="og:description" content="一站式AI长视频创作">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://cineai.ai/og-image.png">
-  <meta property="og:url" content="https://cineai.ai/create">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -20,186 +15,368 @@
   <link rel="stylesheet" href="css/style.css">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+  <style>
+    .studio { display:flex; flex-direction:column; min-height:100vh; padding-top:var(--nav-height); background:var(--bg-primary); }
+    .studio-topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color-light); }
+    .studio-topbar h1 { font-size:var(--font-size-lg); font-weight:700; display:flex; align-items:center; gap:8px; }
+    .studio-body { display:flex; flex:1; overflow:hidden; }
+    .studio-sidebar { width:320px; background:var(--bg-secondary); border-right:1px solid var(--border-color-light); display:flex; flex-direction:column; flex-shrink:0; }
+    .studio-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+    .studio-tabs { display:flex; border-bottom:1px solid var(--border-color-light); background:var(--bg-primary); padding:0 16px; }
+    .studio-tab { padding:12px 20px; font-size:var(--font-size-sm); font-weight:600; color:var(--text-tertiary); cursor:pointer; border-bottom:2px solid transparent; transition:all var(--transition-fast); }
+    .studio-tab:hover { color:var(--text-secondary); }
+    .studio-tab.active { color:var(--color-primary-light); border-bottom-color:var(--color-primary); }
+    .studio-content { flex:1; overflow-y:auto; padding:20px 24px; }
+    .scene-card { background:var(--bg-card); border:1px solid var(--border-color-light); border-radius:var(--border-radius-md); margin-bottom:12px; overflow:hidden; transition:all var(--transition-base); }
+    .scene-card:hover { border-color:var(--border-color); }
+    .scene-card-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; cursor:pointer; }
+    .scene-num { width:28px;height:28px;border-radius:50%;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0; }
+    .scene-status { width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+    .scene-status.pending { background:var(--text-tertiary); }
+    .scene-status.generating { background:var(--color-accent); animation:pulse-dot 1s infinite; }
+    .scene-status.done { background:#22C55E; }
+    .scene-status.error { background:#EF4444; }
+    .studio-sb-section { padding:16px; border-bottom:1px solid var(--border-color-light); }
+    .studio-sb-section h3 { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--text-tertiary); margin-bottom:12px; }
+    .scene-list-scroll { flex:1; overflow-y:auto; padding:8px 16px; }
+    .scene-mini { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:var(--border-radius-sm); cursor:pointer; font-size:12px; color:var(--text-secondary); margin-bottom:4px; }
+    .scene-mini:hover { background:rgba(124,58,237,0.08); }
+    .scene-mini.active { background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.2); }
+    .scene-mini .status-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+    .total-bar { height:4px; background:var(--border-color-light); border-radius:2px; margin:12px 0; overflow:hidden; }
+    .total-bar-fill { height:100%; background:var(--gradient-primary); border-radius:2px; transition:width 0.5s; }
+    .assembly-preview { background:var(--bg-card); border:1px solid var(--border-color-light); border-radius:var(--border-radius-md); padding:24px; text-align:center; min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    @media(max-width:900px){ .studio-body { flex-direction:column; } .studio-sidebar { width:100%; max-height:200px; } }
+  </style>
 </head>
 <body>
-  <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <div class="nav-logo-icon">C</div>
-        CineAI
-      </a>
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
       <div class="nav-links">
-        <a href="index.html">首页</a>
-        <a href="create.html" class="active">创作中心</a>
-        <a href="pricing.html">定价</a>
-        <a href="about.html">关于我们</a>
+        <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html">协作工作流</a>
+        <a href="create.html" class="active">长视频工作室</a> <a href="pricing.html">定价</a> <a href="about.html">关于</a>
       </div>
       <div class="nav-actions">
-        <a href="create.html" class="btn btn-primary btn-sm">
-          <i class="fas fa-wand-magic-sparkles"></i> 开始创作
-        </a>
-        <button class="mobile-menu-btn" aria-label="打开菜单">
-          <i class="fas fa-bars"></i>
-        </button>
+        <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
       </div>
     </div>
   </nav>
-
-  <!-- Mobile Menu -->
   <div class="mobile-menu">
-    <a href="index.html">首页</a>
-    <a href="create.html" class="active">创作中心</a>
-    <a href="pricing.html">定价方案</a>
-    <a href="about.html">关于我们</a>
-    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;border-bottom:none;">
-      <i class="fas fa-wand-magic-sparkles"></i> 开始创作
-    </a>
+    <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html">协作工作流</a>
+    <a href="create.html" class="active">长视频工作室</a> <a href="pricing.html">定价方案</a> <a href="about.html">关于我们</a>
+    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;"><i class="fas fa-wand-magic-sparkles"></i> 开始创作</a>
   </div>
 
-  <!-- Create Layout -->
-  <div class="create-layout">
-    <!-- Sidebar -->
-    <aside class="create-sidebar">
-      <div class="create-sidebar-section">
-        <h3 class="create-sidebar-title">创作工具</h3>
-        <div class="create-tool-item active">
-          <div class="create-tool-icon" style="background:rgba(124,58,237,0.15);color:var(--color-primary-light);">
-            <i class="fas fa-pen-fancy"></i>
+  <div class="studio">
+    <!-- Top Bar -->
+    <div class="studio-topbar">
+      <h1><i class="fas fa-film" style="color:var(--color-primary-light);"></i> <span id="projectName">未命名项目</span></h1>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <span style="font-size:12px;color:var(--text-tertiary);" id="totalDurationDisplay">目标: 0秒</span>
+        <button class="btn btn-primary btn-sm" id="generateAllBtn"><i class="fas fa-play"></i> 生成全部镜头</button>
+        <button class="btn btn-secondary btn-sm" id="exportBtn"><i class="fas fa-download"></i> 导出合成</button>
+      </div>
+    </div>
+
+    <div class="studio-body">
+      <!-- Sidebar -->
+      <div class="studio-sidebar">
+        <div class="studio-sb-section">
+          <h3>项目设置</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input id="projectTitleInput" value="我的长视频" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;" placeholder="项目名称">
+            <div style="display:flex;gap:8px;">
+              <input id="totalDurationInput" type="number" value="60" min="30" max="600" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:13px;outline:none;width:80px;" placeholder="秒">
+              <select id="sceneCountSelect" style="background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:8px;color:var(--text-primary);font-size:13px;outline:none;flex:1;">
+                <option value="4">4个镜头</option><option value="6" selected>6个镜头</option><option value="8">8个镜头</option><option value="12">12个镜头</option>
+              </select>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="rebuildScenes()" style="width:100%;"><i class="fas fa-refresh"></i> 重新拆分镜头</button>
           </div>
-          <span>文生视频</span>
         </div>
-        <div class="create-tool-item">
-          <div class="create-tool-icon" style="background:rgba(6,182,212,0.15);color:var(--color-accent-light);">
-            <i class="fas fa-image"></i>
+
+        <div class="studio-sb-section">
+          <h3>镜头列表</h3>
+          <div class="total-bar"><div class="total-bar-fill" id="progressBar" style="width:0%"></div></div>
+          <div style="font-size:11px;color:var(--text-tertiary);display:flex;justify-content:space-between;">
+            <span id="doneCount">0</span><span id="totalCount">0</span>
           </div>
-          <span>图生视频</span>
         </div>
-        <div class="create-tool-item">
-          <div class="create-tool-icon" style="background:rgba(34,197,94,0.15);color:#4ADE80;">
-            <i class="fas fa-scissors"></i>
-          </div>
-          <span>视频编辑</span>
+
+        <div class="scene-list-scroll" id="sceneMiniList"></div>
+      </div>
+
+      <!-- Main -->
+      <div class="studio-main">
+        <div class="studio-tabs">
+          <div class="studio-tab active" data-tab="script" onclick="switchTab('script')"><i class="fas fa-pen"></i> 脚本</div>
+          <div class="studio-tab" data-tab="scenes" onclick="switchTab('scenes')"><i class="fas fa-list"></i> 镜头管理</div>
+          <div class="studio-tab" data-tab="preview" onclick="switchTab('preview')"><i class="fas fa-eye"></i> 合成预览</div>
         </div>
-        <div class="create-tool-item">
-          <div class="create-tool-icon" style="background:rgba(249,115,22,0.15);color:#FB923C;">
-            <i class="fas fa-microphone"></i>
+
+        <div class="studio-content">
+          <!-- Script Tab -->
+          <div id="tab-script" class="tab-content">
+            <h3 style="margin-bottom:12px;font-size:var(--font-size-lg);">📝 视频脚本</h3>
+            <p style="color:var(--text-secondary);font-size:var(--font-size-sm);margin-bottom:16px;">写下你的视频完整脚本，AI将自动拆分为多个镜头。每个镜头5-15秒，串联成长视频。</p>
+            <textarea id="scriptInput" style="width:100%;min-height:260px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:var(--border-radius-md);padding:16px;color:var(--text-primary);font-size:14px;line-height:1.8;resize:vertical;outline:none;font-family:inherit;" placeholder="在这里输入完整的视频脚本...&#10;&#10;示例：&#10;【开场】清晨的阳光洒在宁静的湖面上，薄雾缓缓升起。&#10;【主体】一只白鹭从芦苇丛中飞起，划过水面，激起一圈圈涟漪。&#10;【转场】镜头切换到森林深处，一只小鹿正在溪边饮水。&#10;【高潮】突然远处传来雷声，动物们开始奔跑躲避即将到来的暴雨。&#10;【结尾】雨后彩虹横跨山谷，万物复苏，一片祥和。"></textarea>
+            <div style="margin-top:12px;display:flex;gap:12px;">
+              <button class="btn btn-primary" onclick="splitScript()"><i class="fas fa-scissors"></i> 拆分为镜头</button>
+              <button class="btn btn-ghost" onclick="useDemoScript()"><i class="fas fa-file-import"></i> 加载示例脚本</button>
+            </div>
           </div>
-          <span>配音音效</span>
-        </div>
-        <div class="create-tool-item">
-          <div class="create-tool-icon" style="background:rgba(236,72,153,0.15);color:#F472B6;">
-            <i class="fas fa-user-check"></i>
+
+          <!-- Scenes Tab -->
+          <div id="tab-scenes" class="tab-content" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+              <h3 style="font-size:var(--font-size-lg);">🎬 镜头管理</h3>
+              <span style="font-size:var(--font-size-sm);color:var(--text-tertiary);" id="sceneTabInfo">0个镜头 · 预估总时长0秒</span>
+            </div>
+            <div id="sceneListContainer"></div>
           </div>
-          <span>角色管理</span>
+
+          <!-- Preview Tab -->
+          <div id="tab-preview" class="tab-content" style="display:none;">
+            <h3 style="margin-bottom:12px;font-size:var(--font-size-lg);">🎞️ 合成预览</h3>
+            <p style="color:var(--text-secondary);font-size:var(--font-size-sm);margin-bottom:16px;">所有镜头按序拼接为完整长视频。点击播放按钮预览最终效果。</p>
+            <div class="assembly-preview" id="assemblyPreview">
+              <div style="font-size:48px;margin-bottom:16px;opacity:0.3;"><i class="fas fa-film"></i></div>
+              <h3 style="color:var(--text-secondary);margin-bottom:8px;">等待镜头生成</h3>
+              <p style="color:var(--text-tertiary);font-size:var(--font-size-sm);">先生成所有镜头，然后在此预览合成效果</p>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <script>
+    /* ====== CineAI 长视频工作室 ====== */
+    var scenes = [];
+    var activeSceneIndex = 0;
+
+    function useDemoScript() {
+      document.getElementById('scriptInput').value = '【开场】清晨的阳光洒在宁静的湖面上，薄雾缓缓升起，镜头从高空缓慢下降贴近水面。\n【主体-1】一只白鹭从芦苇丛中飞起，雪白的翅膀在晨光中闪耀，划过水面激起涟漪。\n【主体-2】镜头跟随白鹭飞过森林，阳光透过树冠洒下斑驳光影，鸟鸣声清脆。\n【转场】画面渐暗再渐亮，切换到午后的小溪边，水流潺潺，光影在水面跳动。\n【主体-3】一只小鹿从林中走出，低头在小溪边饮水，画面宁静祥合。\n【高潮】突然远处传来雷声，天空迅速变暗，雨滴开始落下，动物们开始奔跑躲避。\n【结尾-1】暴雨过后，一道彩虹横跨山谷，阳光重新照耀大地，水珠在叶尖闪烁。\n【结尾-2】镜头缓缓拉起，展现雨后山谷的全貌，万物复苏，一片生机盎然。';
+    }
+
+    function splitScript() {
+      var text = document.getElementById('scriptInput').value.trim();
+      if (!text) { alert('请先输入视频脚本'); return; }
       
-      <div class="create-sidebar-section">
-        <h3 class="create-sidebar-title">历史记录</h3>
-        <div style="font-size:var(--font-size-sm);color:var(--text-tertiary);padding:var(--space-md);text-align:center;">
-          <i class="fas fa-clock" style="font-size:24px;margin-bottom:8px;display:block;opacity:0.3;"></i>
-          暂无生成记录
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="create-main">
-      <div class="create-header">
-        <div>
-          <h2><i class="fas fa-pen-fancy" style="color:var(--color-primary-light);margin-right:8px;"></i>文生视频</h2>
-          <p style="color:var(--text-tertiary);font-size:var(--font-size-sm);margin-top:4px;">
-            用文字描述你的创意，AI 自动生成视频
-          </p>
-        </div>
-        <div class="create-credits">
-          <i class="fas fa-coins" style="color:var(--color-accent);"></i>
-          剩余次数: <span style="color:var(--text-primary);font-weight:700;">128</span>
-          <a href="pricing.html" style="font-size:12px;color:var(--color-primary-light);">升级</a>
-        </div>
-      </div>
-
-      <!-- Input Area -->
-      <div class="create-input-area">
-        <textarea placeholder="详细描述你想要的视频内容...&#10;&#10;例如：一个科幻风格的未来城市，高楼大厦间飞行器穿梭，傍晚时分霓虹灯闪烁，镜头缓慢推进穿过街道..."></textarea>
-        <div class="create-input-tools">
-          <div class="create-input-actions">
-            <button class="btn btn-ghost btn-sm" title="上传参考图片">
-              <i class="fas fa-image"></i> 参考图
-            </button>
-            <button class="btn btn-ghost btn-sm" title="使用模板">
-              <i class="fas fa-template"></i> 模板
-            </button>
-            <button class="btn btn-ghost btn-sm" title="AI辅助写提示词">
-              <i class="fas fa-wand-magic-sparkles"></i> 帮我写
-            </button>
-          </div>
-          <span style="font-size:var(--font-size-xs);color:var(--text-tertiary);">0/2000</span>
-        </div>
-      </div>
-
-      <!-- Parameters -->
-      <div class="create-params">
-        <div class="param-group">
-          <label class="param-label">AI 模型</label>
-          <select class="param-select" id="modelSelect">
-            <option value="cineai-pro">CineAI Pro (推荐)</option>
-            <option value="cineai-turbo">CineAI Turbo (快速)</option>
-            <option value="cineai-studio">CineAI Studio (高质量)</option>
-            <option value="cineai-anime">CineAI Anime (动漫风格)</option>
-          </select>
-        </div>
+      var parts = text.split(/\n+/).filter(function(p){ return p.trim(); });
+      var sceneCount = parseInt(document.getElementById('sceneCountSelect').value);
+      var totalDuration = parseInt(document.getElementById('totalDurationInput').value) || 60;
+      
+      // Group lines into scenes
+      var linesPerScene = Math.max(1, Math.round(parts.length / sceneCount));
+      scenes = [];
+      for (var i = 0; i < sceneCount; i++) {
+        var group = [];
+        for (var j = i * linesPerScene; j < (i + 1) * linesPerScene && j < parts.length; j++) {
+          group.push(parts[j].replace(/^【[^】]*】\s*/g, ''));
+        }
+        var prompt = group.join('，') || ('场景 ' + (i + 1) + '：按脚本描述生成');
         
-        <div class="param-group">
-          <label class="param-label">视频时长</label>
-          <div class="param-value">
-            <i class="fas fa-clock" style="color:var(--text-tertiary);"></i>
-            <span class="param-value-num">30</span><span style="font-weight:400;color:var(--text-tertiary);">秒</span>
-          </div>
-          <input type="range" class="param-slider" id="durationSlider" min="5" max="180" value="30" step="5" aria-label="视频时长" aria-valuemin="5" aria-valuemax="180" aria-valuenow="30">
-        </div>
+        scenes.push({
+          id: i,
+          prompt: prompt,
+          duration: Math.max(5, Math.min(15, Math.round(totalDuration / sceneCount))),
+          quality: '1080p',
+          status: 'pending',
+          resultUrl: null,
+          genTime: null,
+          expanded: i === 0
+        });
+      }
+      
+      activeSceneIndex = 0;
+      renderSceneList();
+      renderMiniList();
+      updateProgress();
+      updateSceneInfo();
+      switchTab('scenes');
+    }
+
+    function rebuildScenes() { splitScript(); }
+
+    function renderSceneList() {
+      var container = document.getElementById('sceneListContainer');
+      if (!scenes.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-tertiary);"><i class="fas fa-film" style="font-size:32px;display:block;margin-bottom:12px;opacity:0.3;"></i>请先在「脚本」标签中输入脚本并拆分为镜头</div>'; return; }
+      
+      var html = '';
+      for (var i = 0; i < scenes.length; i++) {
+        var s = scenes[i];
+        var statusLabel = {pending:'待生成', generating:'生成中…', done:'已完成', error:'失败'}[s.status] || '待生成';
+        var statusClass = s.status;
+        var statusIcon = {pending:'fa-clock', generating:'fa-spinner fa-spin', done:'fa-check-circle', error:'fa-exclamation-circle'}[s.status] || 'fa-clock';
+        html += '<div class="scene-card" id="scene-' + i + '">' +
+          '<div class="scene-card-header" onclick="toggleScene(' + i + ')">' +
+            '<div style="display:flex;align-items:center;gap:12px;">' +
+              '<div class="scene-num">' + (i+1) + '</div>' +
+              '<div class="scene-status ' + statusClass + '"></div>' +
+              '<div><div style="font-size:13px;font-weight:600;">镜头 ' + (i+1) + '</div><div style="font-size:11px;color:var(--text-tertiary);">' + s.duration + '秒 · ' + statusLabel + '</div></div>' +
+            '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;">' +
+              (s.status === 'pending' ? '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();generateScene(' + i + ')"><i class="fas fa-play"></i> 生成</button>' : '') +
+              (s.status === 'done' ? '<span style="color:#4ADE80;font-size:13px;"><i class="fas fa-check-circle"></i></span>' : '') +
+              '<i class="fas fa-chevron-down" style="color:var(--text-tertiary);font-size:12px;transition:transform 0.2s;' + (s.expanded ? 'transform:rotate(180deg);' : '') + '"></i>' +
+            '</div>' +
+          '</div>' +
+          '<div style="' + (s.expanded ? '' : 'display:none;') + 'padding:0 16px 16px;">' +
+            '<textarea style="width:100%;min-height:80px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:6px;padding:12px;color:var(--text-primary);font-size:13px;line-height:1.6;resize:vertical;outline:none;font-family:inherit;" onchange="updateScenePrompt(' + i + ', this.value)">' + s.prompt + '</textarea>' +
+            '<div style="display:flex;justify-content:space-between;margin-top:8px;">' +
+              '<div style="display:flex;gap:8px;">' +
+                '<button class="btn btn-ghost btn-sm" onclick="generateScene(' + i + ')"><i class="fas fa-play"></i> ' + (s.status === 'done' ? '重新生成' : '生成') + '</button>' +
+                (s.status === 'done' ? '<button class="btn btn-ghost btn-sm" style="color:#4ADE80;"><i class="fas fa-eye"></i> 预览</button>' : '') +
+              '</div>' +
+              '<div style="display:flex;gap:8px;align-items:center;">' +
+                '<span style="font-size:11px;color:var(--text-tertiary);">时长:</span>' +
+                '<input type="number" value="' + s.duration + '" min="5" max="15" onchange="updateSceneDuration(' + i + ', this.value)" style="width:50px;background:var(--bg-input);border:1px solid var(--border-color-light);border-radius:4px;padding:4px 8px;color:var(--text-primary);font-size:12px;outline:none;">' +
+                '<span style="font-size:11px;color:var(--text-tertiary);">秒</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function renderMiniList() {
+      var container = document.getElementById('sceneMiniList');
+      if (!scenes.length) { container.innerHTML = '<div style="padding:16px;color:var(--text-tertiary);font-size:12px;text-align:center;">先拆分脚本</div>'; return; }
+      var html = '';
+      for (var i = 0; i < scenes.length; i++) {
+        var s = scenes[i];
+        var dotColor = {pending:'var(--text-tertiary)', generating:'var(--color-accent)', done:'#22C55E', error:'#EF4444'}[s.status] || 'var(--text-tertiary)';
+        html += '<div class="scene-mini' + (i === activeSceneIndex ? ' active' : '') + '" onclick="activeSceneIndex=' + i + ';renderMiniList();document.getElementById(\'scene-\' + ' + i + ').scrollIntoView({behavior:\'smooth\'})">' +
+          '<div class="status-dot" style="background:' + dotColor + '"></div>' +
+          '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">镜头' + (i+1) + ': ' + s.prompt.substring(0, 20) + '</span>' +
+          '<span style="font-size:10px;color:var(--text-tertiary);">' + s.duration + 's</span>' +
+        '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function toggleScene(i) { scenes[i].expanded = !scenes[i].expanded; renderSceneList(); }
+    function updateScenePrompt(i, v) { scenes[i].prompt = v; }
+    function updateSceneDuration(i, v) { scenes[i].duration = Math.max(5, Math.min(15, parseInt(v) || 5)); updateSceneInfo(); renderSceneList(); renderMiniList(); }
+
+    function generateScene(i) {
+      scenes[i].status = 'generating';
+      renderSceneList(); renderMiniList(); updateProgress();
+      
+      setTimeout(function() {
+        scenes[i].status = 'done';
+        scenes[i].genTime = (2 + Math.random() * 4).toFixed(1);
+        renderSceneList(); renderMiniList(); updateProgress(); updateSceneInfo();
+      }, 2000 + Math.random() * 2000);
+    }
+
+    function generateAllScenes() {
+      var btn = document.getElementById('generateAllBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+      btn.disabled = true;
+      
+      var idx = 0;
+      function next() {
+        if (idx >= scenes.length) {
+          btn.innerHTML = '<i class="fas fa-play"></i> 生成全部镜头';
+          btn.disabled = false;
+          updateSceneInfo();
+          return;
+        }
+        scenes[idx].status = 'generating';
+        renderSceneList(); renderMiniList(); updateProgress();
         
-        <div class="param-group">
-          <label class="param-label">分辨率</label>
-          <select class="param-select" id="qualitySelect">
-            <option value="720p">720p (高清)</option>
-            <option value="1080p" selected>1080p (全高清)</option>
-            <option value="4k">4K (超高清)</option>
-          </select>
-        </div>
-        
-        <div class="param-group">
-          <label class="param-label">风格</label>
-          <select class="param-select" id="styleSelect">
-            <option value="cinematic">电影质感</option>
-            <option value="natural">自然真实</option>
-            <option value="anime">动漫风格</option>
-            <option value="painting">油画风格</option>
-            <option value="cyberpunk">赛博朋克</option>
-          </select>
-        </div>
-      </div>
+        setTimeout(function() {
+          scenes[idx].status = 'done';
+          scenes[idx].genTime = (2 + Math.random() * 3).toFixed(1);
+          renderSceneList(); renderMiniList(); updateProgress();
+          idx++;
+          setTimeout(next, 500);
+        }, 1500 + Math.random() * 2000);
+      }
+      next();
+    }
 
-      <!-- Generate & Preview -->
-      <button class="btn btn-primary btn-lg" id="generateBtn" style="width:100%;margin-bottom:var(--space-lg);">
-        <i class="fas fa-wand-magic-sparkles"></i> 开始生成
-      </button>
+    function updateProgress() {
+      var done = scenes.filter(function(s){ return s.status === 'done'; }).length;
+      var pct = scenes.length ? (done / scenes.length * 100) : 0;
+      var bar = document.getElementById('progressBar');
+      if (bar) bar.style.width = pct + '%';
+      var dc = document.getElementById('doneCount');
+      if (dc) dc.textContent = done;
+      var tc = document.getElementById('totalCount');
+      if (tc) tc.textContent = scenes.length;
+    }
 
-      <div class="create-preview">
-        <div class="create-preview-empty">
-          <div class="create-preview-empty-icon">
-            <i class="fas fa-video"></i>
-          </div>
-          <h3>等待创作</h3>
-          <p style="color:var(--text-tertiary);font-size:var(--font-size-sm);">
-            输入视频描述，点击「开始生成」预览效果
-          </p>
-        </div>
-      </div>
-    </main>
-  </div>
+    function updateSceneInfo() {
+      var total = 0;
+      var done = 0;
+      for (var i = 0; i < scenes.length; i++) {
+        total += scenes[i].duration;
+        if (scenes[i].status === 'done') done++;
+      }
+      var info = document.getElementById('sceneTabInfo');
+      if (info) info.textContent = scenes.length + '个镜头 · 预估总时长' + total + '秒';
+      var durDisp = document.getElementById('totalDurationDisplay');
+      if (durDisp) durDisp.textContent = '目标: ' + total + '秒 | 已完成: ' + done + '/' + scenes.length;
+    }
 
-  <script src="js/main.js"></script>
+    var currentTab = 'script';
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.studio-tab').forEach(function(t) { t.classList.toggle('active', t.getAttribute('data-tab') === tab); });
+      ['script','scenes','preview'].forEach(function(t) {
+        var el = document.getElementById('tab-' + t);
+        if (el) el.style.display = t === tab ? 'block' : 'none';
+      });
+      if (tab === 'scenes') renderSceneList();
+      if (tab === 'preview') renderAssembly();
+    }
+
+    function renderAssembly() {
+      var container = document.getElementById('assemblyPreview');
+      if (!scenes.length) { container.innerHTML = '<div style="font-size:48px;margin-bottom:16px;opacity:0.3;"><i class="fas fa-film"></i></div><h3 style="color:var(--text-secondary);margin-bottom:8px;">请先拆分脚本</h3><p style="color:var(--text-tertiary);font-size:var(--font-size-sm);">在脚本标签中输入并拆分</p>'; return; }
+      
+      var allDone = scenes.every(function(s){ return s.status === 'done'; });
+      if (!allDone) { container.innerHTML = '<div style="font-size:48px;margin-bottom:16px;opacity:0.3;"><i class="fas fa-hourglass-half"></i></div><h3 style="color:var(--text-secondary);margin-bottom:8px;">等待所有镜头生成完成</h3><p style="color:var(--text-tertiary);font-size:var(--font-size-sm);">已完成 ' + scenes.filter(function(s){return s.status==='done';}).length + '/' + scenes.length + ' 个镜头</p>'; return; }
+      
+      var totalDur = 0;
+      scenes.forEach(function(s){ totalDur += s.duration; });
+      
+      container.innerHTML = '<div style="width:100%;">' +
+        '<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">' +
+          '<div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:12px 20px;text-align:center;"><div style="font-size:24px;font-weight:800;color:#4ADE80;">' + totalDur + 's</div><div style="font-size:11px;color:var(--text-tertiary);">总时长</div></div>' +
+          '<div style="background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:8px;padding:12px 20px;text-align:center;"><div style="font-size:24px;font-weight:800;">' + scenes.length + '</div><div style="font-size:11px;color:var(--text-tertiary);">镜头数</div></div>' +
+          '<div style="background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:8px;padding:12px 20px;text-align:center;"><div style="font-size:24px;font-weight:800;">' + scenes[0].quality + '</div><div style="font-size:11px;color:var(--text-tertiary);">分辨率</div></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;">';
+      for (var i = 0; i < scenes.length; i++) {
+        container.innerHTML += '<div style="flex-shrink:0;width:160px;background:var(--bg-card);border:1px solid var(--border-color-light);border-radius:8px;overflow:hidden;">' +
+          '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.1));display:flex;align-items:center;justify-content:center;font-size:24px;">▶️</div>' +
+          '<div style="padding:8px;"><div style="font-size:11px;font-weight:600;">镜头' + (i+1) + '</div><div style="font-size:10px;color:var(--text-tertiary);">' + scenes[i].duration + 's</div></div>' +
+        '</div>';
+      }
+      container.innerHTML += '</div>' +
+        '<div style="text-align:center;margin-top:16px;"><button class="btn btn-primary" onclick="alert(\'🎬 导出合成视频\\n\\n' + scenes.length + '个镜头 · ' + totalDur + '秒\\n分辨率: 1080p\\n格式: MP4 H.264\\n\\n（演示模式，实际导出需接入API）\')"><i class="fas fa-download"></i> 导出完整视频 (' + totalDur + '秒)</button></div>' +
+      '</div>';
+    }
+
+    // Event bindings
+    document.getElementById('generateAllBtn').addEventListener('click', generateAllScenes);
+    document.getElementById('exportBtn').addEventListener('click', function(){ switchTab('preview'); });
+    document.getElementById('projectTitleInput').addEventListener('input', function(){
+      document.getElementById('projectName').textContent = this.value || '未命名项目';
+    });
+
+    // Init with demo
+    window.onload = function() {
+      setTimeout(function() {
+        useDemoScript();
+      }, 500);
+    };
+  </script>
 </body>
 </html>

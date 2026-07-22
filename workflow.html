@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人机协作工作流 - CineAI</title>
+  <meta name="description" content="CineAI 人机协作工作流：AI做执行，人做决策，效率提升10倍">
+  <meta property="og:title" content="人机协作工作流 - CineAI">
+  <meta property="og:description" content="AI做执行，人做决策">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cineai.ai/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:;">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+  <style>
+    .wf-hero { padding: calc(var(--nav-height) + var(--space-3xl)) 0 var(--space-2xl); text-align: center; background: var(--gradient-hero); }
+    .wf-phases { max-width: 900px; margin: 0 auto; }
+    .wf-phase { background: var(--bg-card); border: 1px solid var(--border-color-light); border-radius: var(--border-radius-lg); margin-bottom: var(--space-lg); overflow: hidden; transition: all var(--transition-base); }
+    .wf-phase:hover { border-color: var(--border-color); }
+    .wf-phase-header { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-lg); cursor: pointer; user-select: none; }
+    .wf-phase-num { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: var(--font-size-lg); flex-shrink: 0; }
+    .wf-phase.ai .wf-phase-num { background: rgba(124,58,237,0.2); color: var(--color-primary-light); }
+    .wf-phase.human .wf-phase-num { background: rgba(6,182,212,0.2); color: var(--color-accent-light); }
+    .wf-phase.both .wf-phase-num { background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2)); color: var(--text-primary); }
+    .wf-phase-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 2px 10px; border-radius: var(--border-radius-full); }
+    .wf-phase.ai .wf-phase-label { background: rgba(124,58,237,0.15); color: var(--color-primary-light); }
+    .wf-phase.human .wf-phase-label { background: rgba(6,182,212,0.15); color: var(--color-accent-light); }
+    .wf-phase.both .wf-phase-label { background: var(--gradient-primary); color: white; }
+    .wf-phase-title { font-size: var(--font-size-lg); font-weight: 700; flex: 1; }
+    .wf-phase-toggle { color: var(--text-tertiary); transition: transform var(--transition-base); }
+    .wf-phase.open .wf-phase-toggle { transform: rotate(180deg); }
+    .wf-phase-body { max-height: 0; overflow: hidden; transition: max-height var(--transition-slow); }
+    .wf-phase.open .wf-phase-body { max-height: 800px; }
+    .wf-phase-inner { padding: 0 var(--space-lg) var(--space-lg); }
+    .wf-desc { font-size: var(--font-size-sm); color: var(--text-secondary); line-height: 1.8; margin-bottom: var(--space-md); }
+    .wf-tools { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md); }
+    .wf-tool { padding: 4px 12px; background: var(--bg-elevated); border-radius: var(--border-radius-full); font-size: 11px; color: var(--text-tertiary); }
+    .wf-tips { background: rgba(124,58,237,0.08); border-left: 3px solid var(--color-primary); padding: var(--space-md); border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0; margin-top: var(--space-md); }
+    .wf-tips-title { font-size: var(--font-size-xs); font-weight: 700; color: var(--color-primary-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: var(--space-xs); }
+    .wf-tips p { font-size: var(--font-size-sm); color: var(--text-secondary); line-height: 1.6; }
+    .wf-summary { background: var(--bg-card); border: 1px solid var(--color-primary); border-radius: var(--border-radius-lg); padding: var(--space-xl); text-align: center; margin-top: var(--space-xl); }
+    .wf-summary h3 { font-size: var(--font-size-xl); font-weight: 700; margin-bottom: var(--space-sm); }
+    .wf-summary p { color: var(--text-secondary); font-size: var(--font-size-sm); }
+    .wf-legend { display: flex; gap: var(--space-lg); justify-content: center; margin: var(--space-xl) 0; flex-wrap: wrap; }
+    .wf-legend-item { display: flex; align-items: center; gap: var(--space-sm); font-size: var(--font-size-sm); color: var(--text-secondary); }
+    .wf-legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    @media (max-width: 768px) { .wf-phase-header { flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
+      <div class="nav-links">
+        <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html" class="active">协作工作流</a>
+        <a href="create.html">长视频工作室</a> <a href="pricing.html">定价</a> <a href="about.html">关于</a>
+      </div>
+      <div class="nav-actions">
+        <a href="create.html" class="btn btn-primary btn-sm"><i class="fas fa-wand-magic-sparkles"></i> 开始创作</a>
+        <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">首页</a> <a href="apps.html">AI工具</a> <a href="workflow.html" class="active">协作工作流</a>
+    <a href="create.html">长视频工作室</a> <a href="pricing.html">定价方案</a> <a href="about.html">关于我们</a>
+    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;border-bottom:none;"><i class="fas fa-wand-magic-sparkles"></i> 开始创作</a>
+  </div>
+
+  <section class="wf-hero">
+    <div class="container">
+      <span class="section-tag">人机协作</span>
+      <h1 class="section-title">AI 做执行，人做决策</h1>
+      <p class="section-subtitle">不是AI替代人，而是AI帮你做70%的执行工作，你把精力集中在30%的创意决策上</p>
+      
+      <div class="wf-legend">
+        <div class="wf-legend-item"><div class="wf-legend-dot" style="background:var(--color-primary-light);"></div> AI执行</div>
+        <div class="wf-legend-item"><div class="wf-legend-dot" style="background:var(--color-accent-light);"></div> 人类决策</div>
+        <div class="wf-legend-item"><div class="wf-legend-dot" style="background:var(--gradient-primary);"></div> 人机协作</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="wf-phases">
+        <!-- Phase 1: 构思 -->
+        <div class="wf-phase human open">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">1</div>
+            <span class="wf-phase-label">人类决策</span>
+            <span class="wf-phase-title">构思与规划</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">定义视频目标、目标受众、核心信息和整体叙事结构。这个阶段AI无法替代——需要人类的创意、同理心和对受众的理解。</p>
+              <div class="wf-tools"><span class="wf-tool">📝 思维导图</span><span class="wf-tool">📋 需求文档</span><span class="wf-tool">🎯 目标定义</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">🎯 人要做的事</div>
+                <p>明确视频目的（告知/说服/娱乐）、确定目标观众、写出核心信息点、规划故事结构（起承转合）。这是全流程最关键的一步——规划做好了，后面事半功倍。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2: 剧本 -->
+        <div class="wf-phase both">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">2</div>
+            <span class="wf-phase-label">人机协作</span>
+            <span class="wf-phase-title">脚本与分镜</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">AI根据你的创意方向生成多个脚本版本和分镜草稿。你审阅、修改、选择最佳版本，指导AI细化。</p>
+              <div class="wf-tools"><span class="wf-tool">🤖 AI脚本生成</span><span class="wf-tool">🎨 AI分镜草稿</span><span class="wf-tool">✏️ 人工润色</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">🤝 协作方式</div>
+                <p><strong>AI做：</strong>根据关键词生成3个不同风格的脚本版本，配上基础分镜描述。<br>
+                <strong>人做：</strong>选择最符合需求的版本，调整语气、节奏、关键信息点的顺序，确定最终分镜方案。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3: 生成 -->
+        <div class="wf-phase ai">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">3</div>
+            <span class="wf-phase-label">AI执行</span>
+            <span class="wf-phase-title">视频素材生成</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">AI根据分镜脚本逐段生成视频素材。你可以多次生成同一镜头，然后从多个版本中选择最佳的一个。</p>
+              <div class="wf-tools"><span class="wf-tool">🤖 文生视频</span><span class="wf-tool">🤖 图生视频</span><span class="wf-tool">🤖 多镜头生成</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">⚙️ AI做的事</div>
+                <p>根据你的文字描述，逐段生成1080p/4K视频片段。每次生成约10-60秒，支持多次生成提供选择。<br>
+                <strong>小技巧：</strong>每段生成3个版本，从中选最佳——AI的单次输出有随机性，多次生成能提高最终质量。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 4: 筛选 -->
+        <div class="wf-phase human">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">4</div>
+            <span class="wf-phase-label">人类决策</span>
+            <span class="wf-phase-title">筛选与编排</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">从AI生成的多个版本中精选最佳素材，按照叙事逻辑编排顺序，去掉不合要求的片段。</p>
+              <div class="wf-tools"><span class="wf-tool">🔍 质量检查</span><span class="wf-tool">📋 版本对比</span><span class="wf-tool">📐 叙事编排</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">🎯 检查清单</div>
+                <p>☐ 画面无闪烁/变形<br>
+                ☐ 角色外观一致<br>
+                ☐ 物理运动合理<br>
+                ☐ 符合文字描述<br>
+                ☐ 画质达到要求</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 5: 精修 -->
+        <div class="wf-phase both">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">5</div>
+            <span class="wf-phase-label">人机协作</span>
+            <span class="wf-phase-title">精修与增强</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">对选定的素材进行精细化处理：AI负责技术增强（画质提升、去除闪烁、添加转场），你负责创意指导（选择风格、调整节奏）。</p>
+              <div class="wf-tools"><span class="wf-tool">🤖 AI画质增强</span><span class="wf-tool">🤖 AI转场</span><span class="wf-tool">🎨 人工精调</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">🤝 协作方式</div>
+                <p><strong>AI做：</strong>自动提升分辨率、修复帧闪烁、生成平滑转场效果、添加背景音乐推荐。<br>
+                <strong>人做：</strong>决定整体风格方向、选择转场类型、调整每个镜头的时长和节奏。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 6: 音效 -->
+        <div class="wf-phase ai">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">6</div>
+            <span class="wf-phase-label">AI执行</span>
+            <span class="wf-phase-title">配音与音效</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">AI根据脚本自动生成配音旁白，匹配合适的背景音乐和音效。你可以选择不同的声音风格和音乐类型。</p>
+              <div class="wf-tools"><span class="wf-tool">🤖 AI配音</span><span class="wf-tool">🤖 背景音乐</span><span class="wf-tool">🤖 音效生成</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">⚙️ AI做的事</div>
+                <p>将脚本文字转为自然语音（支持160+种语言、2000+种声音风格），自动生成与画面匹配的背景音乐和环境音效。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 7: 审核 -->
+        <div class="wf-phase human">
+          <div class="wf-phase-header" onclick="togglePhase(this)">
+            <div class="wf-phase-num">7</div>
+            <span class="wf-phase-label">人类决策</span>
+            <span class="wf-phase-title">最终审核与发布</span>
+            <span class="wf-phase-toggle"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="wf-phase-body">
+            <div class="wf-phase-inner">
+              <p class="wf-desc">对最终成品进行全盘审查，检查视觉质量、听觉效果、叙事连贯性。确认无误后导出并发布到目标平台。</p>
+              <div class="wf-tools"><span class="wf-tool">✅ 质量审核</span><span class="wf-tool">📤 多平台导出</span><span class="wf-tool">📊 效果追踪</span></div>
+              <div class="wf-tips">
+                <div class="wf-tips-title">🎯 最终检查清单</div>
+                <p>☐ 整体叙事流畅<br>
+                ☐ 音画同步<br>
+                ☐ 色彩风格统一<br>
+                ☐ 字幕准确<br>
+                ☐ 导出格式正确</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="wf-summary">
+        <h3>📊 分工总览</h3>
+        <p style="margin-bottom:var(--space-md);">CineAI 人机协作模式：AI承担 <strong style="color:var(--color-primary-light);">70%</strong> 的执行工作，人类聚焦 <strong style="color:var(--color-accent-light);">30%</strong> 的创意决策</p>
+        <div style="display:flex;gap:var(--space-lg);justify-content:center;flex-wrap:wrap;font-size:var(--font-size-sm);">
+          <span>🤖 <strong>AI执行：</strong>素材生成、配音、音效、画质增强、转场、渲染</span>
+          <span>🧠 <strong>人类决策：</strong>创意构思、脚本审改、素材筛选、质量审核、发布</span>
+        </div>
+        <div style="margin-top:var(--space-lg);">
+          <a href="create.html" class="btn btn-primary"><i class="fas fa-wand-magic-sparkles"></i> 开始你的协作工作流</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><a href="index.html" class="nav-logo" style="font-size:var(--font-size-xl);"><div class="nav-logo-icon">C</div>CineAI</a><p class="footer-brand-desc">新一代AI视频创作平台</p></div>
+        <div class="footer-col"><h4 class="footer-col-title">产品</h4><a href="apps.html">AI工具</a><a href="workflow.html">协作工作流</a><a href="create.html">创作中心</a><a href="pricing.html">定价方案</a></div>
+        <div class="footer-col"><h4 class="footer-col-title">公司</h4><a href="about.html">关于我们</a></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 CineAI. All rights reserved.</span></div>
+    </div>
+  </footer>
+  <script>
+    function togglePhase(header) {
+      var phase = header.parentElement;
+      phase.classList.toggle('open');
+    }
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
