@@ -242,6 +242,7 @@
       };
       ta.value = samples[type] || samples.portrait;
       updateCharCount();
+      updateLivePreview();
       document.getElementById('optimizedBox').style.display = 'none';
     }
 
@@ -386,7 +387,10 @@
       
       // 使用优化引擎
       var type = document.getElementById('imageType').value;
-      var result = optimizePrompt(input, type, {});
+      var style = document.getElementById('styleSelect').value;
+      var composition = document.getElementById('compSelect').value;
+      var lighting = document.getElementById('lightSelect').value;
+      var result = optimizePrompt(input, type, { style: style, composition: composition, lighting: lighting });
       if (opt) opt.textContent = result.optimized;
       
       // 显示关键词
