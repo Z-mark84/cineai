@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定价方案 - CineAI AI长视频创作平台</title>
+  <meta name="description" content="CineAI 定价方案 - 选择适合你的AI视频创作计划，从免费版到企业版">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="定价方案 - CineAI AI长视频创作平台">
+  <meta property="og:description" content="CineAI 定价方案 - 选择适合你的AI视频创作计划">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cineai.ai/og-image.png">
+  <meta property="og:url" content="https://cineai.ai/pricing">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237C3AED'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='22' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+
+  <style>
+    .pricing-hero {
+      padding: calc(var(--nav-height) + var(--space-4xl)) 0 var(--space-3xl);
+      text-align: center;
+      background: var(--gradient-hero);
+    }
+
+    .pricing-toggle {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color-light);
+      border-radius: var(--border-radius-full);
+      padding: 4px;
+      margin: var(--space-xl) auto;
+    }
+
+    .pricing-toggle-btn {
+      padding: 8px 24px;
+      border-radius: var(--border-radius-full);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-family);
+    }
+
+    .pricing-toggle-btn.active {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .pricing-toggle .save-badge {
+      font-size: var(--font-size-xs);
+      background: rgba(34,197,94,0.2);
+      color: #4ADE80;
+      padding: 2px 8px;
+      border-radius: var(--border-radius-full);
+      margin-left: 4px;
+    }
+
+    .pricing-detailed {
+      max-width: 960px;
+      margin: var(--space-4xl) auto 0;
+      overflow-x: auto;
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+
+    .pricing-table th {
+      text-align: left;
+      padding: var(--space-md);
+      border-bottom: 2px solid var(--border-color);
+      color: var(--text-tertiary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: var(--font-size-xs);
+    }
+
+    .pricing-table td {
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--border-color-light);
+      color: var(--text-secondary);
+    }
+
+    .pricing-table td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .pricing-table .check { color: #22C55E; }
+    .pricing-table .cross { color: var(--text-tertiary); opacity: 0.4; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">C</div>
+        CineAI
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首页</a>
+        <a href="create.html">创作中心</a>
+        <a href="pricing.html" class="active">定价</a>
+        <a href="about.html">关于我们</a>
+      </div>
+      <div class="nav-actions">
+        <a href="create.html" class="btn btn-primary btn-sm">
+          <i class="fas fa-wand-magic-sparkles"></i> 开始创作
+        </a>
+        <button class="mobile-menu-btn" aria-label="打开菜单">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <a href="index.html">首页</a>
+    <a href="create.html">创作中心</a>
+    <a href="pricing.html" class="active">定价方案</a>
+    <a href="about.html">关于我们</a>
+    <a href="create.html" class="btn btn-primary" style="margin-top:16px;text-align:center;border-bottom:none;">
+      <i class="fas fa-wand-magic-sparkles"></i> 开始创作
+    </a>
+  </div>
+
+  <section class="pricing-hero">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">定价方案</span>
+        <h1 class="section-title">选择适合你的方案</h1>
+        <p class="section-subtitle">
+          从个人创作者的免费体验，到企业级团队的完整解决方案
+        </p>
+      </div>
+
+      <div class="pricing-toggle">
+        <button class="pricing-toggle-btn active" onclick="togglePricing(this, 'monthly')">月付</button>
+        <button class="pricing-toggle-btn" onclick="togglePricing(this, 'yearly')">
+          年付 <span class="save-badge">省20%</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3 class="pricing-name">免费版</h3>
+          <p class="pricing-desc">初次体验AI视频创作</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">0</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 10 次生成</li>
+            <li>最长 15 秒/视频</li>
+            <li>720p 分辨率</li>
+            <li>基础文生视频</li>
+            <li>社区模板访问</li>
+            <li>水印导出</li>
+          </ul>
+          <a href="create.html" class="btn btn-ghost">免费使用</a>
+        </div>
+
+        <div class="pricing-card">
+          <h3 class="pricing-name">专业版</h3>
+          <p class="pricing-desc">个人创作者之选</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">68</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 200 次生成</li>
+            <li>最长 60 秒/视频</li>
+            <li>1080p 分辨率</li>
+            <li>文生 + 图生视频</li>
+            <li>AI 配音功能</li>
+            <li>无水印导出</li>
+          </ul>
+          <a href="create.html" class="btn btn-secondary">立即订阅</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <span class="pricing-badge">最受欢迎</span>
+          <h3 class="pricing-name">旗舰版</h3>
+          <p class="pricing-desc">专业创作者首选</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">168</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>每月 800 次生成</li>
+            <li>最长 180 秒/视频</li>
+            <li>4K 分辨率</li>
+            <li>全功能模型访问</li>
+            <li>角色一致性功能</li>
+            <li>AI 配音 + 音效</li>
+            <li>优先生成队列</li>
+            <li>多镜头叙事</li>
+          </ul>
+          <a href="create.html" class="btn btn-primary">立即订阅</a>
+        </div>
+
+        <div class="pricing-card">
+          <h3 class="pricing-name">企业版</h3>
+          <p class="pricing-desc">团队协作及批量创作</p>
+          <div class="pricing-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">599</span>
+            <span class="pricing-period">/月</span>
+          </div>
+          <ul class="pricing-features">
+            <li>无限生成次数</li>
+            <li>最长 600 秒/视频</li>
+            <li>4K + 8K 分辨率</li>
+            <li>团队协作空间</li>
+            <li>品牌套件 (Brand Kit)</li>
+            <li>专用 API 接入</li>
+            <li>专属客户经理</li>
+            <li>SLA 保障</li>
+          </ul>
+          <a href="about.html" class="btn btn-secondary">联系销售</a>
+        </div>
+      </div>
+
+      <!-- Detailed Comparison Table -->
+      <div class="pricing-detailed">
+        <h3 style="font-size:var(--font-size-2xl);font-weight:700;margin-bottom:var(--space-lg);">完整功能对比</h3>
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>功能</th>
+              <th>免费版</th>
+              <th>专业版</th>
+              <th>旗舰版</th>
+              <th>企业版</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>月生成次数</td>
+              <td>10 次</td>
+              <td>200 次</td>
+              <td>800 次</td>
+              <td>无限</td>
+            </tr>
+            <tr>
+              <td>最长视频时长</td>
+              <td>15 秒</td>
+              <td>60 秒</td>
+              <td>180 秒</td>
+              <td>600 秒</td>
+            </tr>
+            <tr>
+              <td>最大分辨率</td>
+              <td>720p</td>
+              <td>1080p</td>
+              <td>4K</td>
+              <td>4K + 8K</td>
+            </tr>
+            <tr>
+              <td>文生视频</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>图生视频</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>AI 配音</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>AI 音效</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>角色一致性</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>多镜头叙事</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>无水印导出</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>优先生成队列</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>团队协作</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>品牌套件</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>API 接入</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>专属客户经理</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>社区模板访问</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>SLA 保障</td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="cross">—</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="background:var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">定价常见问题</h2>
+      </div>
+      <div class="faq-list" style="max-width:720px;margin:0 auto;">
+        <div class="faq-item">
+          <div class="faq-question">
+            可以随时升级或降级方案吗？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            是的。你可以随时在账户设置中升级方案，新方案立即生效。降级将在当前计费周期结束时生效。
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            未使用的生成次数会累积到下个月吗？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            免费版的生成次数不会累积。专业版和旗舰版每月未用完的次数可累积最多1个月（即最多享有2个月额度）。企业版无限次数。
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            是否提供免费试用？
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            免费版即可体验基础功能。旗舰版提供7天免费试用，无需绑定支付方式即可体验全部功能。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="cta-title">还不确定？免费体验一下</h2>
+        <p class="cta-desc">无需绑定信用卡，立即开始你的AI视频创作之旅。</p>
+        <a href="create.html" class="btn btn-primary btn-lg">
+          <i class="fas fa-wand-magic-sparkles"></i> 免费开始创作
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="nav-logo" style="font-size:var(--font-size-xl);">
+            <div class="nav-logo-icon">C</div>
+            CineAI
+          </a>
+          <p class="footer-brand-desc">新一代AI长视频创作平台</p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">产品</h4>
+          <a href="create.html">创作中心</a>
+          <a href="pricing.html">定价方案</a>
+          <a href="#">API 文档</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">资源</h4>
+          <a href="#">帮助中心</a>
+          <a href="#">教程指南</a>
+          <a href="#">社区论坛</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">公司</h4>
+          <a href="about.html">关于我们</a>
+          <a href="#">联系方式</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 CineAI. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function togglePricing(btn, period) {
+      document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const amounts = document.querySelectorAll('.pricing-amount');
+      const periods = document.querySelectorAll('.pricing-period');
+      
+      // Base monthly prices
+      const prices = { free: '0', pro: '68', flag: '168', ent: '599' };
+      
+      if (period === 'yearly') {
+        amounts.forEach((el, i) => {
+          if (i === 0) el.textContent = '0';
+          else if (i === 1) el.textContent = '653';
+          else if (i === 2) el.textContent = '1613';
+          else if (i === 3) el.textContent = '5750';
+        });
+        periods.forEach((el, i) => {
+          if (i === 0) el.textContent = '/月';
+          else el.textContent = '/年';
+        });
+      } else {
+        amounts.forEach((el, i) => {
+          if (i === 0) el.textContent = prices.free;
+          else if (i === 1) el.textContent = prices.pro;
+          else if (i === 2) el.textContent = prices.flag;
+          else if (i === 3) el.textContent = prices.ent;
+        });
+        periods.forEach(el => el.textContent = '/月');
+      }
+    }
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
