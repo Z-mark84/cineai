@@ -185,6 +185,11 @@ function initCreatePage() {
 
 /* --- Generation Result Simulation --- */
 function showGenerationResult(prompt, container) {
+  // Sanitize user input to prevent XSS
+  var safePrompt = prompt.substring(0, 80);
+  safePrompt = safePrompt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  if (prompt.length > 80) safePrompt += '...';
+  
   container.innerHTML = `
     <div style="width:100%;height:100%;display:flex;flex-direction:column;background:var(--bg-secondary);">
       <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.1));">
@@ -193,13 +198,13 @@ function showGenerationResult(prompt, container) {
           <div style="font-size:64px;margin-bottom:16px;">🎬</div>
           <div style="font-size:var(--font-size-lg);font-weight:600;margin-bottom:8px;">视频生成完成</div>
           <div style="font-size:var(--font-size-sm);color:var(--text-tertiary);max-width:400px;margin-bottom:20px;">
-            "${prompt.substring(0, 80)}${prompt.length > 80 ? '...' : ''}"
+            "${safePrompt}"
           </div>
           <div style="display:flex;gap:12px;justify-content:center;">
-            <button class="btn btn-primary btn-sm" onclick="alert('下载功能演示')">
+            <button class="btn btn-primary btn-sm download-btn" type="button">
               <i class="fas fa-download"></i> 下载视频
             </button>
-            <button class="btn btn-secondary btn-sm" onclick="alert('编辑功能演示')">
+            <button class="btn btn-secondary btn-sm edit-btn" type="button">
               <i class="fas fa-edit"></i> 继续编辑
             </button>
           </div>
@@ -212,6 +217,12 @@ function showGenerationResult(prompt, container) {
       </div>
     </div>
   `;
+  
+  // Attach event listeners (safe, no inline onclick)
+  var dlBtn = container.querySelector('.download-btn');
+  if (dlBtn) dlBtn.addEventListener('click', function() { alert('下载功能演示'); });
+  var edBtn = container.querySelector('.edit-btn');
+  if (edBtn) edBtn.addEventListener('click', function() { alert('编辑功能演示'); });
 }
 
 /* --- Parameter Presets --- */
