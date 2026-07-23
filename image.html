@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI图片生成 - CineAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .img-page { display:flex;flex-direction:column;min-height:100vh;padding-top:var(--nav-height); }
+    .img-body { display:flex;flex:1;gap:24px;padding:24px;max-width:1200px;margin:0 auto;width:100%; }
+    .img-sidebar { width:240px;flex-shrink:0; }
+    .img-main { flex:1; }
+    .img-preview { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);min-height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:16px; }
+    .prompt-input textarea { width:100%;min-height:100px;background:var(--bg-input);border:1px solid var(--border-light);border-radius:8px;padding:16px;color:var(--text);font-size:14px;line-height:1.7;resize:vertical;outline:none;font-family:inherit; }
+    .optimized-box { background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:16px;margin:12px 0; }
+    .optimized-box .label { font-size:11px;font-weight:700;color:var(--primary-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px; }
+    .optimized-box .text { font-size:13px;color:var(--text-secondary);line-height:1.6;word-break:break-all; }
+    select { width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-light);border-radius:6px;color:var(--text);font-size:13px;outline:none;margin-bottom:12px; }
+    label { font-size:12px;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:4px; }
+    @media(max-width:768px){ .img-body{flex-direction:column} }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
+    <div class="nav-links">
+      <a href="index.html">首页</a> <a href="studio.html">长视频</a> <a href="image.html" class="active">AI图片</a>
+      <a href="characters.html">角色库</a> <a href="pricing.html">定价</a> <a href="about.html">关于</a>
+    </div>
+    <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+  </div></nav>
+
+  <div class="img-page">
+    <div style="padding:16px 24px;background:var(--bg-card);border-bottom:1px solid var(--border-light);"><h1 style="font-size:18px;font-weight:700;"><i class="fas fa-palette" style="color:var(--primary-light);margin-right:8px;"></i>AI 图片生成</h1></div>
+    <div class="img-body">
+      <div class="img-sidebar">
+        <label>图片类型</label>
+        <select id="imgType"><option value="character_scene">人物+场景</option><option value="portrait">人物肖像</option><option value="scene">场景风景</option></select>
+        <label>风格</label>
+        <select id="imgStyle"><option value="photorealistic">📷 写实</option><option value="cinematic">🎬 电影</option><option value="anime">🎨 动漫</option><option value="ink_wash">🏮 水墨</option></select>
+        <label>构图</label>
+        <select id="imgComp"><option value="close-up">特写</option><option value="medium shot" selected>中景</option><option value="wide angle">全景</option></select>
+        <label>光线</label>
+        <select id="imgLight"><option value="natural lighting">自然光</option><option value="golden hour">黄金时刻</option><option value="studio lighting">影棚光</option></select>
+      </div>
+      <div class="img-main">
+        <div class="prompt-input">
+          <textarea id="promptInput" placeholder="描述你想要的图片...例如：一个女孩在花园中微笑">一个女孩在花园中微笑</textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin:8px 0;">
+          <button class="btn btn-ghost btn-sm" onclick="fillPrompt('一位优雅的年轻女性在花园中微笑，穿着白色连衣裙，柔和光线')">👤 人物</button>
+          <button class="btn btn-ghost btn-sm" onclick="fillPrompt('壮丽的山脉日落，金色阳光洒在雪山顶峰，云海翻涌')">🌄 场景</button>
+          <button class="btn btn-ghost btn-sm" onclick="fillPrompt('一个旅行者站在山巅眺望远方的城市，夕阳映照，微风吹动衣角')">👥 人+景</button>
+        </div>
+        <div class="optimized-box" id="optimizedBox" style="display:none;">
+          <div class="label"><i class="fas fa-magic"></i> 优化后的提示词</div>
+          <div class="text" id="optimizedText"></div>
+        </div>
+        <button class="btn btn-primary btn-lg" style="width:100%;margin:12px 0;" onclick="generateImage()"><i class="fas fa-wand-magic-sparkles"></i> 生成图片</button>
+        <div class="img-preview" id="imgPreview">
+          <div style="text-align:center;color:var(--text-tertiary);"><i class="fas fa-image" style="font-size:48px;display:block;margin-bottom:12px;opacity:0.3;"></i><p>输入描述后点击生成</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/prompt-engine.js"></script>
+  <script>
+    document.getElementById('promptInput').addEventListener('input', function(){
+      var input = this.value.trim();
+      if (!input) { document.getElementById('optimizedBox').style.display = 'none'; return; }
+      var type = document.getElementById('imgType').value;
+      var style = document.getElementById('imgStyle').value;
+      var result = optimizePrompt(input, {style: style});
+      document.getElementById('optimizedBox').style.display = 'block';
+      document.getElementById('optimizedText').textContent = result.optimized;
+    });
+
+    function generateImage() {
+      var input = document.getElementById('promptInput').value.trim();
+      if (!input) { alert('请输入描述'); return; }
+      var btn = event.target;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+      btn.disabled = true;
+      var result = optimizePrompt(input, {style: document.getElementById('imgStyle').value});
+      document.getElementById('optimizedBox').style.display = 'block';
+      document.getElementById('optimizedText').textContent = result.optimized;
+      setTimeout(function(){
+        var container = document.getElementById('imgPreview');
+        container.innerHTML = '<div style="width:100%;display:flex;flex-direction:column;"><div style="aspect-ratio:4/3;max-height:400px;background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.1));border-radius:8px;display:flex;align-items:center;justify-content:center;"><div style="text-align:center;"><div style="font-size:64px;margin-bottom:8px;">🖼️</div><div style="font-size:13px;color:var(--text-secondary);max-width:400px;">"'+result.optimized.substring(0,80)+'..."</div></div></div></div>';
+        btn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> 生成图片';
+        btn.disabled = false;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

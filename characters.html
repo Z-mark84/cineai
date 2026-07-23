@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>角色库 - CineAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .char-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;max-width:1000px;margin:24px auto; }
+    .char-card { background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);overflow:hidden; }
+    .char-avatar { height:180px;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:48px; }
+    .char-body { padding:16px; }
+    .char-body h3 { font-size:16px;font-weight:700; }
+    .char-body p { font-size:13px;color:var(--text-secondary);margin:4px 0; }
+    .modal { position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center; }
+    .modal.open { display:flex; }
+    .modal-box { background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);width:90%;max-width:440px;padding:24px; }
+    .modal-box input, .modal-box textarea { width:100%;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-light);border-radius:6px;color:var(--text);font-size:13px;outline:none;margin-bottom:12px;font-family:inherit; }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
+    <div class="nav-links">
+      <a href="index.html">首页</a> <a href="studio.html">长视频</a> <a href="image.html">AI图片</a>
+      <a href="characters.html" class="active">角色库</a> <a href="pricing.html">定价</a> <a href="about.html">关于</a>
+    </div>
+    <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+  </div></nav>
+
+  <div style="padding-top:var(--nav-height);">
+    <div style="padding:24px;max-width:1000px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <div><h1 style="font-size:24px;font-weight:800;"><i class="fas fa-users" style="color:var(--primary-light);margin-right:8px;"></i>角色库</h1><p style="color:var(--text-tertiary);font-size:14px;margin-top:4px;">定义角色卡片，跨镜头保持一致</p></div>
+        <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i> 新建角色</button>
+      </div>
+      <div class="char-grid" id="charGrid"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="charModal">
+    <div class="modal-box">
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;" id="modalTitle">新建角色</h2>
+      <input id="charName" placeholder="角色名称"><textarea id="charDesc" placeholder="角色描述" style="min-height:60px;"></textarea>
+      <input id="charTags" placeholder="性格标签（逗号分隔）">
+      <div style="display:flex;gap:12px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="saveChar()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var CHAR_KEY = 'cineai_characters';
+    var chars = JSON.parse(localStorage.getItem(CHAR_KEY)) || [];
+    function render() {
+      var grid = document.getElementById('charGrid');
+      if (!chars.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-tertiary);"><i class="fas fa-users" style="font-size:48px;display:block;margin-bottom:12px;opacity:0.3;"></i><p>还没有角色，点击新建</p></div>'; return; }
+      var html = '';
+      for (var i = 0; i < chars.length; i++) {
+        var c = chars[i];
+        html += '<div class="char-card"><div class="char-avatar">'+(c.image?'<img src="'+c.image+'" style="width:100%;height:100%;object-fit:cover;">':'<i class="fas fa-user-circle" style="opacity:0.2;"></i>')+'</div><div class="char-body"><h3>'+c.name+'</h3>'+(c.desc?'<p>'+c.desc+'</p>':'')+'<div style="display:flex;gap:4px;flex-wrap:wrap;margin:8px 0;">'+(c.tags?c.tags.split(',').map(function(t){return '<span style="font-size:10px;padding:2px 8px;border-radius:999px;background:var(--bg-input);color:var(--text-tertiary);">'+t.trim()+'</span>';}).join(''):'')+'</div><button class="btn btn-ghost btn-sm" onclick="deleteChar(\''+c.id+'\')"><i class="fas fa-trash"></i> 删除</button></div></div>';
+      }
+      grid.innerHTML = html;
+    }
+    function openModal() { document.getElementById('charModal').classList.add('open'); document.getElementById('charName').value=''; document.getElementById('charDesc').value=''; document.getElementById('charTags').value=''; }
+    function closeModal() { document.getElementById('charModal').classList.remove('open'); }
+    function saveChar() {
+      var name = document.getElementById('charName').value.trim();
+      if (!name) { alert('请输入名称'); return; }
+      chars.push({id:'CHAR-'+Date.now().toString(36), name:name, desc:document.getElementById('charDesc').value.trim(), tags:document.getElementById('charTags').value.trim(), image:'', created:new Date().toLocaleString()});
+      localStorage.setItem(CHAR_KEY, JSON.stringify(chars));
+      closeModal(); render();
+    }
+    function deleteChar(id) { chars = chars.filter(function(c){return c.id !== id;}); localStorage.setItem(CHAR_KEY, JSON.stringify(chars)); render(); }
+    render();
+  </script>
+</body>
+</html>

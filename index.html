@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineAI - AI视频创作平台</title>
+  <meta name="description" content="新一代AI视频创作平台，脚本拆分、多镜头生成、链式拼接">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">首页</a>
+      <a href="studio.html">长视频</a>
+      <a href="image.html">AI图片</a>
+      <a href="characters.html">角色库</a>
+      <a href="pricing.html">定价</a>
+      <a href="about.html">关于</a>
+    </div>
+    <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+  </div></nav>
+
+  <section class="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--primary-light);background:rgba(124,58,237,0.15);padding:6px 16px;border-radius:999px;display:inline-block;margin-bottom:16px;">AI 视频创作 3.0</div>
+          <h1 class="hero-title">用 AI 创作<br><span class="highlight">震撼人心的视频</span></h1>
+          <p>输入创意想法，AI 自动拆分脚本为多镜头，逐段生成，链式拼接成长视频。AI 做执行，你做决策。</p>
+          <div class="hero-actions">
+            <a href="studio.html" class="btn btn-primary btn-lg">免费开始创作</a>
+            <a href="#features" class="btn btn-secondary btn-lg">了解更多</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-mock">
+            <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div>
+            <div class="mock-content"><span style="color:var(--text-tertiary);font-size:14px;">AI 生成预览</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header"><span class="section-tag">核心功能</span><h2 class="section-title">一站式 AI 视频创作</h2></div>
+      <div class="features-grid">
+        <div class="card"><div class="card-icon" style="background:rgba(124,58,237,0.15);color:var(--primary-light);"><i class="fas fa-scissors"></i></div><h3>脚本拆分为镜头</h3><p>输入完整脚本，AI 自动切分为多个场景，每个场景独立生成。</p></div>
+        <div class="card"><div class="card-icon" style="background:rgba(6,182,212,0.15);color:var(--accent-light);"><i class="fas fa-film"></i></div><h3>多镜头链式生成</h3><p>逐段生成5-15秒镜头，链式拼接成长视频。每次生成可独立调整。</p></div>
+        <div class="card"><div class="card-icon" style="background:rgba(34,197,94,0.15);color:#4ADE80;"><i class="fas fa-user-check"></i></div><h3>角色一致性</h3><p>创建角色卡片，上传参考图，确保同一角色在多个镜头中保持一致。</p></div>
+        <div class="card"><div class="card-icon" style="background:rgba(249,115,22,0.15);color:#FB923C;"><i class="fas fa-magic"></i></div><h3>智能提示词引擎</h3><p>输入「美女」「森林」等关键词，自动转化为高质量具体描述。</p></div>
+        <div class="card"><div class="card-icon" style="background:rgba(236,72,153,0.15);color:#F472B6;"><i class="fas fa-clipboard-check"></i></div><h3>质量检查清单</h3><p>生成完成后逐项检查画面/角色/物理/内容，确保输出质量。</p></div>
+        <div class="card"><div class="card-icon" style="background:rgba(251,191,36,0.15);color:#FBBF24;"><i class="fas fa-palette"></i></div><h3>AI 图片生成</h3><p>文生图/图生图，支持人物/场景/人+景三类，实时预览优化效果。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg-card);">
+    <div class="container">
+      <div class="section-header"><span class="section-tag">创作流程</span><h2 class="section-title">三步完成长视频</h2></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center;max-width:800px;margin:0 auto;">
+        <div><div style="width:64px;height:64px;border-radius:50%;background:rgba(124,58,237,0.15);border:2px solid rgba(124,58,237,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;font-weight:800;color:var(--primary-light);">1</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">输入脚本</h3><p style="font-size:14px;color:var(--text-secondary);">写下完整视频脚本，AI 自动拆分</p></div>
+        <div><div style="width:64px;height:64px;border-radius:50%;background:rgba(6,182,212,0.15);border:2px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;font-weight:800;color:var(--accent-light);">2</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">逐段生成</h3><p style="font-size:14px;color:var(--text-secondary);">每个镜头独立生成，调整提示词和参数</p></div>
+        <div><div style="width:64px;height:64px;border-radius:50%;background:rgba(34,197,94,0.15);border:2px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;font-weight:800;color:#4ADE80;">3</div><h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">拼接导出</h3><p style="font-size:14px;color:var(--text-secondary);">所有镜头按序拼接为完整长视频</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header"><span class="section-tag">诚实地说</span><h2 class="section-title">AI 能做什么，不能做什么</h2></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:0 auto;">
+        <div class="card" style="border-color:rgba(34,197,94,0.3);">
+          <h3 style="color:#4ADE80;">擅长</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;">
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✓ 15-60秒短视频生成</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✓ 多镜头脚本拆分与编排</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✓ 快速创意原型验证</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✓ AI配音与字幕</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color:rgba(239,68,68,0.2);">
+          <h3 style="color:#F87171;">需要人工介入</h3>
+          <ul style="list-style:none;padding:0;margin-top:12px;">
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✗ 长视频叙事结构设计（>3分钟）</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✗ 角色跨镜头一致性锁定</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✗ 精确物理模拟与品牌级控制</li>
+            <li style="padding:6px 0;font-size:13px;color:var(--text-secondary);">✗ 最终质量审核</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="container">
+    <div class="footer-grid">
+      <div class="footer-col"><a href="index.html" class="nav-logo"><div class="nav-logo-icon">C</div>CineAI</a><p style="font-size:13px;color:var(--text-tertiary);margin-top:8px;">新一代AI视频创作平台</p></div>
+      <div class="footer-col"><h4>产品</h4><a href="studio.html">长视频工作室</a><a href="image.html">AI图片</a><a href="characters.html">角色库</a><a href="pricing.html">定价</a></div>
+      <div class="footer-col"><h4>公司</h4><a href="about.html">关于我们</a></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 CineAI</span><span>AI 做执行，人做决策</span></div>
+  </div></footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
